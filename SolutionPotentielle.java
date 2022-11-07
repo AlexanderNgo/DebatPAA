@@ -10,7 +10,7 @@ public class SolutionPotentielle {
 	
 	public void add(String arg){
 		if (arguments.contains(arg)) {
-			System.out.println("L'argument "+arg+" est déjà dans E");
+			System.out.println("L'argument "+arg+" est dï¿½jï¿½ dans E");
 		}else {
 			arguments.add(arg);
 		}
@@ -29,7 +29,7 @@ public class SolutionPotentielle {
 			List<String> contres=debat.getGraph().get(arg);
 			for (String contre :contres) {
 				if (arguments.contains(contre)) {
-					return false;//présense de contradiction
+					return false;//prÃ©sense de contradiction
 				}
 			}//TODO
 		}
@@ -42,6 +42,7 @@ public class SolutionPotentielle {
 			sb.append(arg);
 			sb.append(",");
 		}
+		sb.deleteCharAt(sb.length()-1);
 		sb.append("}");
 		return sb.toString();
 	}

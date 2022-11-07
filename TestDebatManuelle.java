@@ -7,7 +7,7 @@ public class TestDebatManuelle {
 		DebatManuelle debat = new DebatManuelle();
 		Scanner clavier = new Scanner(System.in);
 		
-		System.out.println("Combien d'arguments possèdent votre débat ? ");
+		System.out.println("Combien d'arguments possï¿½dent votre dï¿½bat ? ");
 		int nbArguments = clavier.nextInt();
 		
 		debat.ajoutArguments(nbArguments);
@@ -23,15 +23,15 @@ public class TestDebatManuelle {
 			switch(choix) {
 				case 1:
 					System.out.println("Entrez le premier argument qui contredira le second : ");
-					String a1 = clavier.nextLine();
+					String a1 = clavier.next();
 					System.out.println("Entrez le second argument qui sera contredit par le premier : ");
-					String a2 = clavier.nextLine();
+					String a2 = clavier.next();
 					
 					debat.ajoutContradictions(a1, a2);
 					break;
 					
 				case 2:
-					System.out.println("Vous avez terminé de représenter le graphe qui décrit les arguments et les contradictions");
+					System.out.println("Vous avez terminï¿½ de reprï¿½senter le graphe qui dï¿½crit les arguments et les contradictions");
 					fin = true;
 					break;
 			}
@@ -44,7 +44,7 @@ public class TestDebatManuelle {
 			
 			System.out.println("1) Ajouter un argument");
 			System.out.println("2) Supprimer un argument");
-			System.out.println("3) Vérifier la solution");
+			System.out.println("3) Vï¿½rifier la solution");
 			System.out.println("4) fin");
 			
 			do {
@@ -55,26 +55,26 @@ public class TestDebatManuelle {
 			switch(choix) {
 				case 1:
 					System.out.println("Entrez l'argument a ajouter : ");
-					arg = clavier.nextLine();
+					arg = clavier.next();
 					ensembleE.add(arg);
 					break;
 				case 2:
 					System.out.println("Entrez l'argument a supprimer : ");
-					arg = clavier.nextLine();
+					arg = clavier.next();
 					ensembleE.remove(arg);
 					break;
 				case 3:
 					if (ensembleE.verif(debat)){
-						System.out.println(ensembleE.toString()+"est une solution admissible");
+						System.out.println(ensembleE.toString()+" est une solution admissible");
 					}else {
 						//TODO
 					}
 					break;
 				case 4:
 					if (ensembleE.verif(debat)){
-						System.out.println(ensembleE.toString()+"est une solution admissible");
+						System.out.println(ensembleE.toString()+" est une solution admissible");
 					}else {
-						System.out.println(ensembleE.toString()+"n'est une solution admissible");
+						System.out.println(ensembleE.toString()+" n'est une solution admissible");
 					}
 					fin=true;
 					break;
