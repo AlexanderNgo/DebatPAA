@@ -7,7 +7,7 @@ public class TestDebatManuelle {
 		DebatManuelle debat = new DebatManuelle();
 		Scanner clavier = new Scanner(System.in);
 		
-		System.out.println("Combien d'arguments poss�dent votre d�bat ? ");
+		System.out.println("Combien d'arguments possedent votre débat ? ");
 		int nbArguments = clavier.nextInt();
 		
 		debat.ajoutArguments(nbArguments);
@@ -22,16 +22,16 @@ public class TestDebatManuelle {
 			
 			switch(choix) {
 				case 1:
-					System.out.println("Entrez le premier argument qui contredira le second : ");
+					System.out.print("Entrez le premier argument qui contredira le second : ");
 					String a1 = clavier.next();
-					System.out.println("Entrez le second argument qui sera contredit par le premier : ");
+					System.out.print("Entrez le second argument qui sera contredit par le premier : ");
 					String a2 = clavier.next();
 					
 					debat.ajoutContradictions(a1, a2);
 					break;
 					
 				case 2:
-					System.out.println("Vous avez termin� de repr�senter le graphe qui d�crit les arguments et les contradictions");
+					System.out.println("Vous avez terminé de représenter le graphe qui décrit les arguments et les contradictions");
 					fin = true;
 					break;
 			}
@@ -44,11 +44,11 @@ public class TestDebatManuelle {
 			
 			System.out.println("1) Ajouter un argument");
 			System.out.println("2) Supprimer un argument");
-			System.out.println("3) V�rifier la solution");
+			System.out.println("3) Vérifier la solution");
 			System.out.println("4) fin");
 			
 			do {
-				System.out.println("Entrez un valeur entre 1 et 4");
+				System.out.print("Entrez un valeur entre 1 et 4 : ");
 				choix =clavier.nextInt();
 			}while( 0>choix || choix>4 );
 			
@@ -56,12 +56,20 @@ public class TestDebatManuelle {
 				case 1:
 					System.out.println("Entrez l'argument a ajouter : ");
 					arg = clavier.next();
-					ensembleE.add(arg);
+					if(debat.getGraph().keySet().contains(arg)) {
+						ensembleE.add(arg);
+					}else {
+						System.out.println("L'argument "+arg+" n'est pas dans le débat");
+					}
 					break;
 				case 2:
 					System.out.println("Entrez l'argument a supprimer : ");
 					arg = clavier.next();
-					ensembleE.remove(arg);
+					if(debat.getGraph().keySet().contains(arg)) {
+						ensembleE.remove(arg);
+					}else {
+						System.out.println("L'argument "+arg+" n'est pas dans le débat");
+					}
 					break;
 				case 3:
 					if (ensembleE.verif(debat)){
