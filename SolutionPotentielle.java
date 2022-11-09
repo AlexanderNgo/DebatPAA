@@ -10,7 +10,7 @@ public class SolutionPotentielle {
 	
 	public void add(String arg){
 		if (arguments.contains(arg)) {
-			System.out.println("L'argument "+arg+" est dï¿½jï¿½ dans E");
+			System.out.println("L'argument "+arg+" est déja dans E");
 		}else {
 			arguments.add(arg);
 		}
@@ -24,18 +24,27 @@ public class SolutionPotentielle {
 		}
 	}
 	
-	public boolean verif(DebatManuelle debat) {
+	private boolean contradictionVerif(DebatManuelle debat) {
 		for(String arg:arguments) {
 			List<String> contres=debat.getGraph().get(arg);
 			for (String contre :contres) {
 				if (arguments.contains(contre)) {
-					return false;//prÃ©sense de contradiction
+					System.out.println(arg + " est contré par : "+ contre);
+					return false;//présense de contradiction
 				}
-			}//TODO
+			}
 		}
 		return true;
+	}
+	
+	public boolean verif(DebatManuelle debat) {
+		if (!contradictionVerif(debat)) {
+			return false;
+		}
 		
 	}
+	
+	
 	public String toString() {
 		StringBuffer sb=new StringBuffer("L'ensemble E {");
 		for (String arg:arguments) {

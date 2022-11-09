@@ -7,7 +7,7 @@ public class TestDebatManuelle {
 		DebatManuelle debat = new DebatManuelle();
 		Scanner clavier = new Scanner(System.in);
 		
-		System.out.println("Combien d'arguments possedent votre dÃ©bat ? ");
+		System.out.println("Combien d'arguments possedent votre débat ? ");
 		int nbArguments = clavier.nextInt();
 		
 		debat.ajoutArguments(nbArguments);
@@ -31,7 +31,7 @@ public class TestDebatManuelle {
 					break;
 					
 				case 2:
-					System.out.println("Vous avez terminÃ© de reprÃ©senter le graphe qui dÃ©crit les arguments et les contradictions");
+					System.out.println("Vous avez terminé de représenter le graphe qui décrit les arguments et les contradictions");
 					fin = true;
 					break;
 			}
@@ -44,7 +44,7 @@ public class TestDebatManuelle {
 			
 			System.out.println("1) Ajouter un argument");
 			System.out.println("2) Supprimer un argument");
-			System.out.println("3) VÃ©rifier la solution");
+			System.out.println("3) Vérifier la solution");
 			System.out.println("4) fin");
 			
 			do {
@@ -59,7 +59,7 @@ public class TestDebatManuelle {
 					if(debat.getGraph().keySet().contains(arg)) {
 						ensembleE.add(arg);
 					}else {
-						System.out.println("L'argument "+arg+" n'est pas dans le dÃ©bat");
+						System.out.println("L'argument "+arg+" n'est pas dans le débat");
 					}
 					break;
 				case 2:
@@ -68,7 +68,7 @@ public class TestDebatManuelle {
 					if(debat.getGraph().keySet().contains(arg)) {
 						ensembleE.remove(arg);
 					}else {
-						System.out.println("L'argument "+arg+" n'est pas dans le dÃ©bat");
+						System.out.println("L'argument "+arg+" n'est pas dans le débat");
 					}
 					break;
 				case 3:
@@ -82,7 +82,7 @@ public class TestDebatManuelle {
 					if (ensembleE.verif(debat)){
 						System.out.println(ensembleE.toString()+" est une solution admissible");
 					}else {
-						System.out.println(ensembleE.toString()+" n'est une solution admissible");
+						System.out.println(ensembleE.toString()+" n'est pas une solution admissible");
 					}
 					fin=true;
 					break;
