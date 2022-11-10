@@ -35,4 +35,17 @@ public class DebatManuelle {
 		return graphe;
 	}
 	
+	public void afficheDebat() {                 // AFFICHE LE GRAPHE (AIDE POUR LES TESTS)
+		StringBuffer debat = new StringBuffer();
+		debat.append("\nGraphe : \n");
+		for (String arg : graphe.keySet()) {
+			debat.append(arg +" : [ ");
+			for(int i = 0; i < graphe.get(arg).size(); i++) {
+				debat.append(graphe.get(arg).get(i)+", ");
+			}
+			debat.append("]\n");
+		}
+		
+		System.out.println(debat.toString());
+	}
 }
