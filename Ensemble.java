@@ -76,7 +76,7 @@ public class Ensemble
 	{
 		Scanner scan = new Scanner(System.in);
 		int res;
-		boolean admissible;
+		boolean admissible = true;
 		String resString;
 		System.out.println("1) Ajouter un argument dans la solution 2) retirer un argument de la solution 3) verifier la solution 4) fin : ");
 		res = scan.nextInt();
