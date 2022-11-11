@@ -126,11 +126,11 @@ public class Ensemble
 		}
 		if(solutionAdmissible(solution,l) == true)
 		{
-			System.out.println("Cette solution est admissible");
+			System.out.println("\nCette solution est admissible");
 		}
 		else
 		{
-			System.out.println("Cette solution n'est pas admissible");
+			System.out.println("\nCette solution n'est pas admissible");
 		}
 	}
 	public void afficherArguments()
@@ -169,11 +169,11 @@ public class Ensemble
 	public void supprimerArgumentSolution(String s)
 	{
 		boolean dedans = false;
-		for(int i = 0;i<l.size();i++)
+		for(int i = 0;i<solution.size();i++)
 		{
 			if(solution.get(i).getArgument().equalsIgnoreCase(s))
 			{
-				System.out.println("L'argument "+l.get(i).getArgument()+" va etre supprime");
+				System.out.println("L'argument "+s+" va etre supprime");
 				solution.remove(i);
 				dedans = true;
 			}
