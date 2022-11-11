@@ -29,9 +29,6 @@ public class Ensemble
 		int indDepuis = -1;
 		int indVers = -1;
 		int i =0;
-		int j = 0;
-		int k = 0;
-		int m = 0;
 		Argument tmp = null;
 		String resChaine,resChaine1;
 		Scanner scan = new Scanner(System.in);
