@@ -124,7 +124,7 @@ public class Ensemble
 		{
 			System.out.print(solution.get(i).getArgument()+"   ");
 		}
-		if(admissible == true)
+		if(solutionAdmissible(solution,l) == true)
 		{
 			System.out.println("Cette solution est admissible");
 		}
