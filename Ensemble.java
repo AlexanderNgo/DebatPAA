@@ -76,6 +76,7 @@ public class Ensemble
 	{
 		Scanner scan = new Scanner(System.in);
 		int res;
+		boolean admissible;
 		String resString;
 		System.out.println("1) Ajouter un argument dans la solution 2) retirer un argument de la solution 3) verifier la solution 4) fin : ");
 		res = scan.nextInt();
@@ -100,7 +101,7 @@ public class Ensemble
 			}
 			else if(res == 3)
 			{
-				boolean admissible = solutionAdmissible(solution,l);
+				admissible = solutionAdmissible(solution,l);
 				if(admissible == true)
 				{
 					System.out.println("La solution est admissible");
@@ -122,6 +123,14 @@ public class Ensemble
 		for(int i = 0;i<solution.size();i++)
 		{
 			System.out.print(solution.get(i).getArgument()+"   ");
+		}
+		if(admissible == true)
+		{
+			System.out.println("Cette solution est admissible");
+		}
+		else
+		{
+			System.out.println("Cette solution n'est pas admissible");
 		}
 	}
 	public void afficherArguments()
