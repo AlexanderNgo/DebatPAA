@@ -1,3 +1,4 @@
+package DebatPAA;
 import java.util.Scanner;
 
 public class TestDebatManuelle {
@@ -11,7 +12,7 @@ public class TestDebatManuelle {
 		/***** 
 		**  CREATION DU GRAPHE
 		******/
-		System.out.println("Combien d'arguments possedent votre débat ? ");
+		System.out.print("Combien d'arguments possedent votre dï¿½bat ? ");
 		int nbArguments = clavier.nextInt();
 		
 		debat.ajoutArguments(nbArguments);
@@ -19,9 +20,9 @@ public class TestDebatManuelle {
 		boolean fin = false;
 		int choix;
 		do {	
-			System.out.println("\n1) ajouter une contradiction\n");
-			System.out.println("2) fin\n");
-			
+			System.out.println("\n1) ajouter une contradiction");
+			System.out.println("2) fin");
+			System.out.print("\nChoisissez parmi les options ci-dessus et entrer une valeur entre 1 et 2 : ");
 			choix = clavier.nextInt();
 			
 			switch(choix) {
@@ -36,9 +37,11 @@ public class TestDebatManuelle {
 					break;
 					
 				case 2:
-					System.out.println("\nVous avez terminé de représenter le graphe qui décrit les arguments et les contradictions.");
+					System.out.println("\nVous avez terminï¿½ de reprï¿½senter le graphe qui dï¿½crit les arguments et les contradictions.");
 					fin = true;
 					break;
+				default:
+					System.out.println("\nMauvais choix de nombre");
 			}
 		}while(!fin);
 		
@@ -53,13 +56,11 @@ public class TestDebatManuelle {
 			
 			System.out.println("\n1) Ajouter un argument");
 			System.out.println("2) Supprimer un argument");
-			System.out.println("3) Vérifier la solution");
+			System.out.println("3) Vï¿½rifier la solution");
 			System.out.println("4) fin");
 			
-			do {
-				System.out.print("\nChoisissez parmi les options ci-dessus et entrer une valeur entre 1 et 4 : ");
-				choix =clavier.nextInt();
-			}while( 0>choix || choix>4 );
+			System.out.print("\nChoisissez parmi les options ci-dessus et entrer une valeur entre 1 et 4 : ");
+			choix =clavier.nextInt();
 			
 			switch(choix) {
 				case 1:
@@ -68,7 +69,7 @@ public class TestDebatManuelle {
 					if(debat.getGraph().keySet().contains(arg)) {
 						ensembleE.add(arg);
 					}else {
-						System.out.println("\nL'argument "+arg+" n'est pas dans le débat");
+						System.out.println("\nL'argument "+arg+" n'est pas dans le dï¿½bat");
 					}
 					break;
 				case 2:
@@ -77,7 +78,7 @@ public class TestDebatManuelle {
 					if(debat.getGraph().keySet().contains(arg)) {
 						ensembleE.remove(arg);
 					}else {
-						System.out.println("\nL'argument "+arg+" n'est pas dans le débat");
+						System.out.println("\nL'argument "+arg+" n'est pas dans le dï¿½bat");
 					}
 					break;
 				case 3:

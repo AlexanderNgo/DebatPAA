@@ -1,3 +1,5 @@
+package DebatPAA;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,15 +20,14 @@ public class DebatManuelle {
 	
 	public void ajoutContradictions(String c1, String c2) {
 		if(!graphe.containsKey(c1)) {
-			System.out.println("l'argument "+c1+" n'appartient pas au débat");
-			
+			System.out.println("L'argument "+c1+" n'appartient pas au dï¿½bat");
 		}else if(!graphe.containsKey(c2)) {
-			System.out.println("l'argument "+c2+" n'appartient pas au débat");
-			
+			System.out.println("L'argument "+c2+" n'appartient pas au dï¿½bat");
 		}else if(graphe.get(c1).contains(c2)) {
-			System.out.println(c1+ " contredit déja "+c2);
-			
-		}else {
+			System.out.println(c1+ " contredit dï¿½ja "+c2);
+/*		}else if(c1==c2) {
+			System.out.println("Un argument ne peut pas se contredire lui meme");
+*/		}else {
 			graphe.get(c1).add(c2);
 		}		
 	}
@@ -41,11 +42,11 @@ public class DebatManuelle {
 		for (String arg : graphe.keySet()) {
 			debat.append(arg +" : [ ");
 			for(int i = 0; i < graphe.get(arg).size(); i++) {
-				debat.append(graphe.get(arg).get(i)+", ");
+				debat.append(graphe.get(arg).get(i)+",");
 			}
-			debat.append("]\n");
+			debat.deleteCharAt(debat.length()-1);
+			debat.append(" ]\n");
 		}
-		
 		System.out.println(debat.toString());
 	}
 }

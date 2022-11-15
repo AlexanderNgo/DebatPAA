@@ -1,3 +1,4 @@
+package DebatPAA;
 import java.util.*;
 
 public class Argument // classe argument

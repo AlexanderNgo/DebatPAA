@@ -1,3 +1,4 @@
+package DebatPAA;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,10 +11,11 @@ public class SolutionPotentielle {
 	
 	public void add(String arg){
 		if (arguments.contains(arg)) {
-			System.out.println("L'argument "+arg+" est déja dans E");
+			System.out.println("L'argument "+arg+" est deja dans E");
 		}else {
 			arguments.add(arg);
 		}
+		System.out.print(this.toString());
 	}
 	
 	public void remove(String arg) {
@@ -24,7 +26,8 @@ public class SolutionPotentielle {
 		}
 	}
 	
-	/*Méthode placé dans la méthode principale de vérification, 
+	/**
+	 * Mï¿½thode placï¿½ dans la mï¿½thode principale de vï¿½rification, 
 	 * qui va tester si l'ensemble E se contredit ou pas.
 	 */
 	private boolean contradictionVerif(DebatManuelle debat) {
@@ -32,8 +35,8 @@ public class SolutionPotentielle {
 			List<String> contres=debat.getGraph().get(arg);
 			for (String contre :contres) {
 				if (arguments.contains(contre)) {
-					System.out.println(arg + " est contré par : "+ contre);
-					return false;//présense de contradiction
+					System.out.println(arg + " est contrï¿½ par : "+ contre);
+					return false;//prï¿½sense de contradiction
 				}
 			}
 		}
@@ -82,13 +85,13 @@ public class SolutionPotentielle {
 	}
 
 	public String toString() {
-		StringBuffer sb=new StringBuffer("L'ensemble E {");
+		StringBuffer sb=new StringBuffer("L'ensemble E { ");
 		for (String arg:arguments) {
 			sb.append(arg);
 			sb.append(",");
 		}
 		sb.deleteCharAt(sb.length()-1);
-		sb.append("}");
+		sb.append(" }");
 		return sb.toString();
 	}
 }
