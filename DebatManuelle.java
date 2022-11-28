@@ -1,4 +1,4 @@
-package DebatPAA;
+package programmeManuelle;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,41 +12,70 @@ public class DebatManuelle {
 		graphe = new HashMap<String, List<String>>();
 	}
 	
+	/**
+	*	Nom : ajoutArguments
+	*	@param int n
+	*	@return NONE
+	*	Description : Ajoute un argument au graphe
+	**/
 	public void ajoutArguments(int n) {
 		for(int i = 1; i < n+1; i++) {
 			graphe.put("A"+i, new ArrayList<String>());
 		}
 	}
 	
+	/**
+	*	Nom : ajoutContradictions
+	*	@param String c1, String c2
+	*	@return NONE
+	*	Description : Ajoute une contradiction dans le graphe (c1 contredit c2)
+	**/
 	public void ajoutContradictions(String c1, String c2) {
 		if(!graphe.containsKey(c1)) {
-			System.out.println("L'argument "+c1+" n'appartient pas au dï¿½bat");
+			System.out.println("l'argument "+c1+" n'appartient pas au débat");
+			
 		}else if(!graphe.containsKey(c2)) {
-			System.out.println("L'argument "+c2+" n'appartient pas au dï¿½bat");
+			System.out.println("l'argument "+c2+" n'appartient pas au débat");
+			
 		}else if(graphe.get(c1).contains(c2)) {
-			System.out.println(c1+ " contredit dï¿½ja "+c2);
-/*		}else if(c1==c2) {
-			System.out.println("Un argument ne peut pas se contredire lui meme");
-*/		}else {
+			System.out.println(c1+ " contredit déja "+c2);
+			
+		}else {
 			graphe.get(c1).add(c2);
 		}		
 	}
 	
+	/**
+	*	Nom : HashMap
+	*	@param NONE
+	*	@return HashMap<String,List<String>>
+	*	Description : Retourne le graphe
+	**/
 	public HashMap<String,List<String>> getGraph(){
 		return graphe;
 	}
 	
+	/**
+	*	Nom : afficheDebat()
+	*	@param NONE
+	*	@return NONE
+	*	Description : Affiche le graphe 
+	**/
 	public void afficheDebat() {                 // AFFICHE LE GRAPHE (AIDE POUR LES TESTS)
 		StringBuffer debat = new StringBuffer();
 		debat.append("\nGraphe : \n");
 		for (String arg : graphe.keySet()) {
 			debat.append(arg +" : [ ");
 			for(int i = 0; i < graphe.get(arg).size(); i++) {
-				debat.append(graphe.get(arg).get(i)+",");
+				debat.append(graphe.get(arg).get(i)+", ");
 			}
-			debat.deleteCharAt(debat.length()-1);
-			debat.append(" ]\n");
+			debat.append("]\n");
 		}
+		
 		System.out.println(debat.toString());
+	}
+	
+	public void ajoutArgumentsString(String s) {
+		graphe.put(s, new ArrayList<String>());
 	}
 }

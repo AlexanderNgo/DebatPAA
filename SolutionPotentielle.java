@@ -1,4 +1,5 @@
-package DebatPAA;
+package programmeManuelle;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,15 +10,26 @@ public class SolutionPotentielle {
 		this.arguments=new ArrayList<String>();
 	}
 	
+	/**
+	*	Nom : add
+	*	@param String arg
+	*	@return NONE
+	*	Description : Ajoute un argument dans la solution potentielle E
+	**/
 	public void add(String arg){
 		if (arguments.contains(arg)) {
-			System.out.println("L'argument "+arg+" est deja dans E");
+			System.out.println("L'argument "+arg+" est déja dans E");
 		}else {
 			arguments.add(arg);
 		}
-		System.out.print(this.toString());
 	}
 	
+	/**
+	*	Nom : remove
+	*	@param String arg
+	*	@return NONE
+	*	Description : Enlève un argument de la solution potentielle E
+	**/
 	public void remove(String arg) {
 		if (!arguments.contains(arg)) {
 			System.out.println("L'argument "+arg+" n'est pas dans E");
@@ -27,22 +39,30 @@ public class SolutionPotentielle {
 	}
 	
 	/**
-	 * Mï¿½thode placï¿½ dans la mï¿½thode principale de vï¿½rification, 
-	 * qui va tester si l'ensemble E se contredit ou pas.
-	 */
+	*	Nom : contradictionVerif
+	*	@param DebatManuelle debat
+	*	@return boolean
+	*	Description : Méthode placé dans la méthode principale de verif, qui va tester si l'ensemble E se contredit ou pas.
+	**/
 	private boolean contradictionVerif(DebatManuelle debat) {
 		for(String arg:arguments) {
 			List<String> contres=debat.getGraph().get(arg);
 			for (String contre :contres) {
 				if (arguments.contains(contre)) {
-					System.out.println(arg + " est contrï¿½ par : "+ contre);
-					return false;//prï¿½sense de contradiction
+					System.out.println(contre+" contredit "+arg);
+					return false;//présense de contradiction
 				}
 			}
 		}
 		return true;
 	}
 	
+	/**
+	*	Nom : verif
+	*	@param DebatManuelle debat
+	*	@return boolean
+	*	Description : Vérifie si la solution potentielle E est admissible ou pas
+	**/
 	public boolean verif(DebatManuelle debat) {
 		if (arguments.size() == 0) {                 // SI ENSEMBLE VIDE ALORS SOLU ADMI
 			return true;
@@ -83,15 +103,22 @@ public class SolutionPotentielle {
 		}
 		return true; // ENSEMBLE E EST ADMISSIBLE
 	}
-
+	
+	/**
+	*	Nom : toString
+	*	@param NONE
+	*	@return String
+	*	Description : Retourne la solution potentielle E
+	**/
 	public String toString() {
-		StringBuffer sb=new StringBuffer("L'ensemble E { ");
+		StringBuffer sb=new StringBuffer("L'ensemble E {");
 		for (String arg:arguments) {
 			sb.append(arg);
 			sb.append(",");
 		}
 		sb.deleteCharAt(sb.length()-1);
-		sb.append(" }");
+		sb.append("}");
 		return sb.toString();
 	}
 }
+
