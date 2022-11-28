@@ -56,7 +56,7 @@ public class DebatManuelle {
 	}
 	
 	/**
-	*	Nom : afficheDebat()
+	*	Nom : afficheDebat
 	*	@param NONE
 	*	@return NONE
 	*	Description : Affiche le graphe 
@@ -75,7 +75,18 @@ public class DebatManuelle {
 		System.out.println(debat.toString());
 	}
 	
+	/**
+	*	Nom : ajoutArgumentsString
+	*	@param String s
+	*	@return NONE
+	*	Description : Ajoute un argument, qui correspond à chaine de caractère quelconque, dans le débat.
+	**/
 	public void ajoutArgumentsString(String s) {
-		graphe.put(s, new ArrayList<String>());
+		if ( graphe.containsKey(s)) {
+			System.out.println(s+" est déja un argument du débat");
+		}else {
+			graphe.put(s, new ArrayList<String>());
+		}
+		
 	}
 }

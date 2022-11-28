@@ -15,6 +15,12 @@ public class Menu {
 	public Menu() {
 	}
 	
+	/**
+	*	Nom : menuManuelle
+	*	@param NONE
+	*	@return NONE
+	*	Description : Permet de créer un débat et de tester si des ensembles d'arguments sont admissibles ou pas
+	**/
 	public void menuManuelle() {
 		DebatManuelle debat = new DebatManuelle();
 		Scanner clavier = new Scanner(System.in);
@@ -113,55 +119,70 @@ public class Menu {
 		clavier.close();
 	}
 	
+	/**
+	*	Nom : menuAutomatique
+	*	@param String fichier
+	*	@return NONE
+	*	Description : Permet de créer un débat à partir d'un fichier, de trouver des solutions admissibles et préférées, et de sauvegarder les solutions
+	**/
 	public void menuAutomatique(String fichier) {
 		
-		DebatManuelle Debat = new DebatManuelle();
-		Scanner clavier = new Scanner(System.in);
-		String ligne;
-		int nb = 0;
-		String argument1, argument2;
+		DebatManuelle Debat = new DebatManuelle();  // Pour créer le débat à partir du fichier donné en paramètre
+		Scanner clavier = new Scanner(System.in);   
+		String ligne;                               // Va stocker chaque ligne du fichier
+		int nb = 0;                                 // Variable entière à incrémenter à chaque nouvelle ligne pour indiquer quel ligne est responsable d'une exception
+		String argument1, argument2;                // Pour stocker les arguments donné par le fichier
 		
-		try {
-			FileReader fReader = new FileReader(fichier);
-			BufferedReader bReader = new BufferedReader(fReader);
+		try (FileReader fReader = new FileReader(fichier);            // Ouverture du fichier avec FileReader
+			BufferedReader bReader = new BufferedReader(fReader);){   // Ouverture du fichier avec BufferedReader pour mieux le manipuler
 			
-			while((ligne = bReader.readLine()) != null) {
-				nb++;
-				if( ligne.startsWith("argument(") && ligne.endsWith(").") ) {
+			while((ligne = bReader.readLine()) != null) {             // Tant que le fichier contient des lignes
+				
+				nb++;                                                 // Nombre de ligne
+				
+				if( ligne.startsWith("argument(") && ligne.endsWith(").") ) {       // SI C'EST POUR L'AJOUT D'UN ARGUMENT
+					
+					//[
+					String[] t1, t2, t3;                     
+					t1 = ligne.split("\\(");
+					t2 = ligne.split("\\)");
+					t3 = ligne.split(",");
+					
+					if (t1.length != 2 || t2.length != 2 || t3.length != 1) {
+						throw new IOException("Ligne "+nb+" le nom de l'argument ne doit pas contenir \",\" ni \"(\" ni \")\"");
+					}
+					//] On vérifie que l'argument ne contient pas de "(", ")", ","
+					
+					//[
 					StringTokenizer st = new StringTokenizer(ligne,"()");
 					st.nextToken();
 					argument1 = st.nextToken().toString();
+					//] On sélectionne le nom de l'argument
 					
-					StringBuffer a = new StringBuffer(argument1);
-					for(int i = 0; i <a.length(); i++) {
-						if (a.charAt(i) == ' ') {
-							a.deleteCharAt(i);
-						}
+					argument1 = argument1.replaceAll("\\s", "");   // On supprime les espaces et tabulation entre les parenthèses et dans le nom de l'argument
+					
+					if (argument1.equals("argument") || argument1.equals("contradiction")) {                                                   // Le nom de l'argument ne doit pas être ni "argument" ni "contradiction"
+						throw new IOException("Ligne "+nb+" le nom de l'argument ne doit pas être égale à \"argument\" ou \"contradiction\"");
 					}
-					argument1 = a.toString();
 					
-					if (argument1 == "argument" || argument1 == "contradiction" || argument1 == "," || argument1 == "(") {
-						throw new NomArgumentException();
-					}
-	
+					Debat.ajoutArgumentsString(argument1);   // On ajoute l'argument au début
 					
-				}else if( ligne.startsWith("contradiction(") && ligne.endsWith(").") ) {
+					//Debat.afficheDebat(); pour les tests
+					
+				}else if( ligne.startsWith("contradiction(") && ligne.endsWith(").") ) {    // SI C'EST POUR AJOUTER UNE CONTRADICTION
 					
 				}else {
-					throw new IOException("Problème de mise en forme ligne "+nb);
+					throw new IOException("Ligne "+nb+" problème de mise en forme");        // LE FICHIER N'EST PAS DE LA BONNE FORME
 				}
 			}
 		} catch (FileNotFoundException fnfe) {
 			System.err.println("Le fichier spécifié est introuvable");
+			clavier.close();
 		} catch (IOException e) {
-			System.err.println("Problème de ligne");
-		} catch (NomArgumentException nae) {
-			
-		}
+			e.printStackTrace();
+			clavier.close();
+		} 		
 		
-		
-		
-		
-		
+		clavier.close();
 	}
 }
