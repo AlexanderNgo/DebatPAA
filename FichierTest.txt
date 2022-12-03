@@ -1,2 +1,5 @@
 argument(beau).
+contradiction(beau(rr,miow).
+contradiction(moche,idiot).
 argument(moche).
+argument(idiot).

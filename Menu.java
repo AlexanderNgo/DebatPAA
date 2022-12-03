@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
@@ -14,6 +15,7 @@ public class Menu {
 	
 	public Menu() {
 	}
+	
 	
 	/**
 	*	Nom : menuManuelle
@@ -119,15 +121,15 @@ public class Menu {
 		clavier.close();
 	}
 	
+	
 	/**
 	*	Nom : menuAutomatique
 	*	@param String fichier
 	*	@return NONE
-	*	Description : Permet de créer un débat à partir d'un fichier, de trouver des solutions admissibles et préférées, et de sauvegarder les solutions
+	*	Description : Permet de créer un débat à partir d'un fichier
 	**/
-	public void menuAutomatique(String fichier) {
+	public void menuAutoFichier(String fichier, DebatManuelle Debat) {
 		
-		DebatManuelle Debat = new DebatManuelle();  // Pour créer le débat à partir du fichier donné en paramètre
 		Scanner clavier = new Scanner(System.in);   
 		String ligne;                               // Va stocker chaque ligne du fichier
 		int nb = 0;                                 // Variable entière à incrémenter à chaque nouvelle ligne pour indiquer quel ligne est responsable d'une exception
@@ -135,6 +137,8 @@ public class Menu {
 		
 		try (FileReader fReader = new FileReader(fichier);            // Ouverture du fichier avec FileReader
 			BufferedReader bReader = new BufferedReader(fReader);){   // Ouverture du fichier avec BufferedReader pour mieux le manipuler
+			
+			ArrayList<String> tabArg = new ArrayList<String>();       // Pour stocker les noms des arguments et vérifier si 2 arguments ont déja été ajouté au débat avant une contradiction
 			
 			while((ligne = bReader.readLine()) != null) {             // Tant que le fichier contient des lignes
 				
@@ -149,9 +153,9 @@ public class Menu {
 					t3 = ligne.split(",");
 					
 					if (t1.length != 2 || t2.length != 2 || t3.length != 1) {
-						throw new IOException("Ligne "+nb+" le nom de l'argument ne doit pas contenir \",\" ni \"(\" ni \")\"");
+						throw new IOException("Ligne "+nb+", le nom de l'argument ne doit pas contenir \",\" ni \"(\" ni \")\"");
 					}
-					//] On vérifie que l'argument ne contient pas de "(", ")", ","
+					//] On vérifie que l'argument ne contient pas de "(", de ")", ou de ","
 					
 					//[
 					StringTokenizer st = new StringTokenizer(ligne,"()");
@@ -159,30 +163,91 @@ public class Menu {
 					argument1 = st.nextToken().toString();
 					//] On sélectionne le nom de l'argument
 					
-					argument1 = argument1.replaceAll("\\s", "");   // On supprime les espaces et tabulation entre les parenthèses et dans le nom de l'argument
+					argument1 = argument1.trim();                                             // supprime les espaces entre les parenthèses et le nom de l'argument
 					
-					if (argument1.equals("argument") || argument1.equals("contradiction")) {                                                   // Le nom de l'argument ne doit pas être ni "argument" ni "contradiction"
-						throw new IOException("Ligne "+nb+" le nom de l'argument ne doit pas être égale à \"argument\" ou \"contradiction\"");
+					if (argument1.equals("argument") || argument1.equals("contradiction")) {  // Le nom de l'argument ne doit pas être ni "argument" ni "contradiction"
+						throw new IOException("Ligne "+nb+", le nom de l'argument ne doit pas être égale à \"argument\" ou \"contradiction\"");
 					}
 					
-					Debat.ajoutArgumentsString(argument1);   // On ajoute l'argument au début
+					Debat.ajoutArgumentsString(argument1);                                    // On ajoute l'argument au début
 					
-					//Debat.afficheDebat(); pour les tests
+					tabArg.add(argument1);
 					
-				}else if( ligne.startsWith("contradiction(") && ligne.endsWith(").") ) {    // SI C'EST POUR AJOUTER UNE CONTRADICTION
+					//Debat.afficheDebat();                                                         // (à utiliser pour tester le programme) affiche les étapes de création du débat créer à partir du fichier
+					
+				}else if( ligne.startsWith("contradiction(") && ligne.endsWith(").") && ligne.contains(",") ) {      // SI C'EST POUR AJOUTER UNE CONTRADICTION
+					
+					//[
+					String[] t1, t2, t3;                     
+					t1 = ligne.split("\\(");
+					t2 = ligne.split("\\)");
+					t3 = ligne.split(",");
+					
+					if (t1.length != 2 || t2.length != 2 || t3.length != 2) {
+						throw new IOException("Ligne "+nb+", le nom des arguments dans la contracdiction ne doivent pas contenir de \",\" ni de \"(\" ni de \")\"");
+					}
+					
+					//] On vérifie qu'aucun argument de la contradiction ne contient  de "(",et de ")". Et on vérifie qu'il y a bien une virgule
+					
+					//[
+					StringTokenizer st1 = new StringTokenizer(ligne,"()");
+					st1.nextToken();
+					argument1 = st1.nextToken().toString();
+					
+					t1 = argument1.split(",");
+					
+					if (t1.length==0 || t1[0].length() == 0 || t1.length==1) {
+						throw new IOException("Ligne "+nb+", il manque un ou plusieurs arguments dans la contradiction");
+					}
+					//] On vérifie si une contradiction contient 2 noms
+					
+					//[
+					StringTokenizer st2 = new StringTokenizer(ligne,"(,)");
+					st2.nextToken();
+					argument1 = st2.nextToken().toString();
+					argument2 = st2.nextToken().toString();
+					//] On sélectionne le nom des 2 arguments
+					
+					argument1.trim();                          // supprime les espaces entre les parenthèses et le nom de l'argument                                              
+					argument2.trim();
+					
+					if (argument1.equals("argument") || argument1.equals("contradiction")) {   // Le nom de l'argument ne doit pas être ni "argument" ni "contradiction"
+						throw new IOException("Ligne "+nb+", le nom de l'argument ne doit pas être égale à \"argument\" ou \"contradiction\"");
+					}else if (argument2.equals("argument") || argument2.equals("contradiction")) {
+						throw new IOException("Ligne "+nb+", le nom de l'argument ne doit pas être égale à \"argument\" ou \"contradiction\"");
+					}	
+					
+					if (!tabArg.contains(argument1)) {                                         // Vérifie si si un argument n’est pas défini, ou est défini après avoir été utilisé dans une contradiction
+						throw new IOException("Ligne "+nb+", l'argument "+argument1+" n'a pas encore été ajouté au débat");         
+					}else if (!tabArg.contains(argument2)) {
+						throw new IOException("Ligne "+nb+", l'argument "+argument2+" n'a pas encore été ajouté au débat");         
+					}
+					
+					Debat.ajoutContradictions(argument1, argument2);
 					
 				}else {
-					throw new IOException("Ligne "+nb+" problème de mise en forme");        // LE FICHIER N'EST PAS DE LA BONNE FORME
+					throw new IOException("Ligne "+nb+", problème de mise en forme");         // LE FICHIER N'EST PAS DE LA BONNE FORME
 				}
 			}
+		} catch (IllegalArgumentException iae) {
+			System.err.println(iae.getMessage());
+			clavier.close();
+			
 		} catch (FileNotFoundException fnfe) {
 			System.err.println("Le fichier spécifié est introuvable");
 			clavier.close();
+			
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.err.println(e.getMessage());
 			clavier.close();
-		} 		
+	    }
 		
 		clavier.close();
+		
+		//Debat.afficheDebat();                                // (à utiliser pour tester le programme) affiche les étapes de création du débat créer à partir du fichier
+	}
+	
+	public void menuAutoSolu(DebatManuelle Debat) {
+		// Partie affichage menu et recherche d’une solution admissible, ou préférée.
 	}
 }

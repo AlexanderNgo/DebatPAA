@@ -31,6 +31,10 @@ public class DebatManuelle {
 	*	Description : Ajoute une contradiction dans le graphe (c1 contredit c2)
 	**/
 	public void ajoutContradictions(String c1, String c2) {
+		if (c1.equals(c2)) {
+			throw new IllegalArgumentException("l'argument \" "+c1+" \" ne peut pas se contredire lui même");
+		}
+		
 		if(!graphe.containsKey(c1)) {
 			System.out.println("l'argument "+c1+" n'appartient pas au débat");
 			
@@ -43,10 +47,10 @@ public class DebatManuelle {
 		}else {
 			graphe.get(c1).add(c2);
 		}		
-	}
+	}		
 	
 	/**
-	*	Nom : HashMap
+	*	Nom : getGraph
 	*	@param NONE
 	*	@return HashMap<String,List<String>>
 	*	Description : Retourne le graphe
@@ -67,7 +71,12 @@ public class DebatManuelle {
 		for (String arg : graphe.keySet()) {
 			debat.append(arg +" : [ ");
 			for(int i = 0; i < graphe.get(arg).size(); i++) {
-				debat.append(graphe.get(arg).get(i)+", ");
+				if(i==0) {
+					debat.append(graphe.get(arg).get(i));
+				}else {
+					debat.append(", "+graphe.get(arg).get(i));
+				}
+				
 			}
 			debat.append("]\n");
 		}
