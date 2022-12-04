@@ -3,6 +3,7 @@ package programmeManuelle;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class DebatManuelle {
 	
@@ -97,5 +98,10 @@ public class DebatManuelle {
 			graphe.put(s, new ArrayList<String>());
 		}
 		
+	}
+	
+	public List<String> getArguments(){
+		Set<String> setArg= graphe.keySet();
+		return new ArrayList<String>(setArg);
 	}
 }

@@ -2,12 +2,14 @@ package interfaceUtilisateur;
 
 import programmeManuelle.DebatManuelle;
 import programmeManuelle.SolutionPotentielle;
+import solutionAuto.EnsembleSolution;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
@@ -247,7 +249,11 @@ public class Menu {
 		//Debat.afficheDebat();                                // (à utiliser pour tester le programme) affiche les étapes de création du débat créer à partir du fichier
 	}
 	
-	public void menuAutoSolu(DebatManuelle Debat) {
+	public void menuAutoSolu(DebatManuelle debat) {
 		// Partie affichage menu et recherche d’une solution admissible, ou préférée.
+		//TODO
+		EnsembleSolution ensSol=new EnsembleSolution(debat);
+		List<List<List<String>>> ensSolPos=ensSol.getEnsSolPos();
+		
 	}
 }
