@@ -6,12 +6,15 @@ import java.util.List;
 import java.util.Set;
 
 import programmeManuelle.DebatManuelle;
+import programmeManuelle.SolutionPotentielle;
 
 public class EnsembleSolution {
-
+	
+	private DebatManuelle debat;
 	private List<String> ensArg;
 	
 	public EnsembleSolution(DebatManuelle debat) {
+		this.debat=debat;
 		this.ensArg = debat.getArguments();
 	}
 	
@@ -42,13 +45,13 @@ public class EnsembleSolution {
     		solPos.add(arg);
     		ensSolPos.get(0).add(solPos);
     	}
+    	int nbArg=ensArg.size();
     	
-    	for(int i =0;i<ensArg.size()-1;i++) {
+    	for(int i =0;i<nbArg-1;i++) {
     		List<List<String>> liActuel= ensSolPos.get(i);
     		List<List<String>> liSuiv=new ArrayList<List<String>>();
-    		int solmax=comb(ensArg.size(),i+2);
+    		int solmax= comb(ensArg.size(),i+2);
     		int taille= liActuel.size();
-    		
     		for (int j=0;j<taille && solmax>liSuiv.size();j++) {
     			List<String> arg1=liActuel.get(j);
     			for(int k=j+1;k<taille;k++) {
@@ -59,11 +62,35 @@ public class EnsembleSolution {
     				}
     			}
     		}
-    		
     		ensSolPos.add(liSuiv);
-    		System.out.println(liSuiv);
     	}
-    	System.out.println(ensSolPos);
     	return ensSolPos;
     }
+    
+    public List<List<List<String>>> getensSolAdm(List<List<List<String>>> ensSolPos){
+    	
+    	List<List<List<String>>> ensSolAdm =new ArrayList<List<List<String>>>();
+    	SolutionPotentielle solPos= new SolutionPotentielle();
+    	
+    	for(int i =0;i<ensSolPos.size();i++) {
+    		List<List<String>> listArg =ensSolPos.get(i);
+    		List<List<String>> listArgAdm = new ArrayList<List<String>>();
+    		
+    		for(int j=0;j<listArg.size();j++) {
+    			solPos.setArguments(listArg.get(j));
+    			if (solPos.verifnoPrint(debat)) {
+    				listArgAdm.add((listArg.get(j)));
+    			}
+    		}
+    		ensSolPos.add(listArgAdm);
+    	}
+    	return ensSolAdm;
+    }
+    
+    public List<List<List<String>>> getensSolPref(List<List<List<String>>> ensSolAdm){
+    	List<List<List<String>>> ensSolPos =new ArrayList<List<List<String>>>();
+    	
+    	return ensSolPos;
+    }
+    
 }

@@ -33,17 +33,17 @@ public class DebatManuelle {
 	**/
 	public void ajoutContradictions(String c1, String c2) {
 		if (c1.equals(c2)) {
-			throw new IllegalArgumentException("l'argument \" "+c1+" \" ne peut pas se contredire lui même");
+			throw new IllegalArgumentException("l'argument \" "+c1+" \" ne peut pas se contredire lui mï¿½me");
 		}
 		
 		if(!graphe.containsKey(c1)) {
-			System.out.println("l'argument "+c1+" n'appartient pas au débat");
+			System.out.println("l'argument "+c1+" n'appartient pas au dï¿½bat");
 			
 		}else if(!graphe.containsKey(c2)) {
-			System.out.println("l'argument "+c2+" n'appartient pas au débat");
+			System.out.println("l'argument "+c2+" n'appartient pas au dï¿½bat");
 			
 		}else if(graphe.get(c1).contains(c2)) {
-			System.out.println(c1+ " contredit déja "+c2);
+			System.out.println(c1+ " contredit dï¿½ja "+c2);
 			
 		}else {
 			graphe.get(c1).add(c2);
@@ -89,11 +89,11 @@ public class DebatManuelle {
 	*	Nom : ajoutArgumentsString
 	*	@param String s
 	*	@return NONE
-	*	Description : Ajoute un argument, qui correspond à chaine de caractère quelconque, dans le débat.
+	*	Description : Ajoute un argument, qui correspond ï¿½ chaine de caractï¿½re quelconque, dans le dï¿½bat.
 	**/
 	public void ajoutArgumentsString(String s) {
 		if ( graphe.containsKey(s)) {
-			System.out.println(s+" est déja un argument du débat");
+			System.out.println(s+" est dï¿½ja un argument du dï¿½bat");
 		}else {
 			graphe.put(s, new ArrayList<String>());
 		}

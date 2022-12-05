@@ -2,7 +2,7 @@ argument(1).
 argument(2).
 argument(3).
 argument(4).
-contradiction(beau,moche).
-contradiction(moche,idiot).
-argument(moche).
-argument(idiot).
+argument(5).
+argument(6).
+contradiction(1,2).
+contradiction(3,4).
