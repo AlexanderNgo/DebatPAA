@@ -60,6 +60,17 @@ public class SolutionPotentielle {
 		return true;
 	}
 	
+	private boolean contradictionVerifnoPrint(DebatManuelle debat) {
+		for(String arg:arguments) {
+			List<String> contres=debat.getGraph().get(arg);
+			for (String contre :contres) {
+				if (arguments.contains(contre)) {
+					return false;//pr�sense de contradiction
+				}
+			}
+		}
+		return true;
+	}
 	/**
 	*	Nom : verif
 	*	@param DebatManuelle debat
@@ -117,7 +128,7 @@ public class SolutionPotentielle {
 		if (arguments.size() == 0) {                 // SI ENSEMBLE VIDE ALORS SOLU ADMI
 			return true;
 		}
-		if (!contradictionVerif(debat)) {            // SI CONTRADICTION INTERNE SOLU NON ADMI
+		if (!contradictionVerifnoPrint(debat)) {            // SI CONTRADICTION INTERNE SOLU NON ADMI
 			return false;
 		}
 		
