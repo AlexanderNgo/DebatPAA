@@ -44,7 +44,11 @@ public class EnsembleSolution {
 	private int comb(int n, int p) {
 		return (int) (fact(n) / (fact(p) * fact(n - p)));
 	}
-	
+	/**
+	 * Nom : getEnsSolPos
+	 * @return List<List<List<String>>> ensSolPos
+	 * Description : Methode qui retourne l'ensemble des possibilités de E  
+	 */
     public List<List<List<String>>> getEnsSolPos(){
     	List<List<List<String>>> ensSolPos = new ArrayList<List<List<String>>>(); //ensemble des solutions possibles
     	
@@ -77,11 +81,15 @@ public class EnsembleSolution {
     		}
     		ensSolPos.add(liSuiv);
     	}
-    	System.out.println(ensSolPos);
     	return ensSolPos;
     }
-    
-    public List<List<List<String>>> getensSolAdm(List<List<List<String>>> ensSolPos){
+   /**
+    * Nom : getEnsSolAdm
+    * @param List<List<List<String>>> ensSolPos
+    * @return List<List<List<String>>>
+    * Description : Methode qui retourne l'ensemble des solutions admissibles d'un debat
+    */
+    public List<List<List<String>>> getEnsSolAdm(List<List<List<String>>> ensSolPos){
     	
     	List<List<List<String>>> ensSolAdm =new ArrayList<List<List<String>>>();
     	SolutionPotentielle solPos= new SolutionPotentielle();
@@ -97,10 +105,14 @@ public class EnsembleSolution {
     		}
     		ensSolAdm.add(listArgAdm);
     	}
-    	System.out.println(ensSolAdm);
     	return ensSolAdm;
     }
-    
+    /**
+     * Nom : getEnsSolPref
+     * @param List<List<List<String>>> ensSolAdm
+     * @return List<List<List<String>>>
+     * Description : Methode qui retourne l'ensemble des solutions preferees d'un debat
+     */
     public List<List<List<String>>> getensSolPref(List<List<List<String>>> ensSolAdm){
     	List<List<List<String>>> ensSolPos =new ArrayList<List<List<String>>>();
     	

@@ -9,7 +9,11 @@ public class SolutionPotentielle {
 	public SolutionPotentielle() {
 		this.arguments=new ArrayList<String>();
 	}
-	
+	/**
+	 * Nom : setArguments
+	 * @param List<String> arg
+	 * Description : Methode qui remplace l'attribut arguments par un autre donné 
+	 */
 	public void setArguments(List<String> arg) {
 		this.arguments=arg;
 	}
@@ -59,7 +63,12 @@ public class SolutionPotentielle {
 		}
 		return true;
 	}
-	
+	/**
+	 * Nom : contradictionVerifnoPrint
+	 * @param debat
+	 * @return boolean
+	 * Description : Meme methode que contradictionVerif() mais sans rien afficher dans la console
+	 */
 	private boolean contradictionVerifnoPrint(DebatManuelle debat) {
 		for(String arg:arguments) {
 			List<String> contres=debat.getGraph().get(arg);
@@ -122,46 +131,41 @@ public class SolutionPotentielle {
 	*	Nom : verifnoPrint
 	*	@param DebatManuelle debat
 	*	@return boolean
-	*	Description : Vï¿½rifie si la solution potentielle E est admissible ou pas
+	*	Description : Meme chose que verif() mais sans rien afficher dans la console
 	**/
 	public boolean verifnoPrint(DebatManuelle debat) {
-		if (arguments.size() == 0) {                 // SI ENSEMBLE VIDE ALORS SOLU ADMI
+		if (arguments.size() == 0) {         
 			return true;
 		}
-		if (!contradictionVerifnoPrint(debat)) {            // SI CONTRADICTION INTERNE SOLU NON ADMI
+		if (!contradictionVerifnoPrint(debat)) {  
 			return false;
 		}
 		
-		List<String> argPasDansSolu = new ArrayList<String>();  // VA CONTENIR LES ARGUMENTS DU DEBAT QUI NE SONT PAS PRESENT DANS L'ENSEMBLE E
-		
-		for (String arg: debat.getGraph().keySet()) { // AJOUT DE TOUS LES ARGUMENTS DU DEBAT QUI NE SONT PAS DANS L'ENSEMBLE E 
+		List<String> argPasDansSolu = new ArrayList<String>();  
+		for (String arg: debat.getGraph().keySet()) {
 			if (!arguments.contains(arg)) {
 				argPasDansSolu.add(arg);
 			}
 		}
 		
-		/* Dans cette partie on teste la defense de l'ensemble E. Pour chaque argument A dans argPasDansSolu 
-		 *on verifie que A ne contredise pas un argument de E. Si A contredit un 
-		 * argument de E on verifie qu'au moins un argument de E contredise A
-		 */
-		for (String argAttaque : argPasDansSolu) {  // POUR CHAQUE ARGUMENT QUI PEUT POTENTIELLEMENT CONTRDIRE
-			for (String argSoluPot1 : arguments) {  // POUR CHAQUE ARGUEMENT DANS ENSEMBLE E
-				if (debat.getGraph().get(argAttaque).contains(argSoluPot1)) {  // SI ARGUMENT ARGATTAQUE CONTREDIT ARGUMENT DE E ALORS ON VERIFIE QU'AU MOINS 1 ARGUMENT DE E CONTREDIT ARGATTAQUE
+		for (String argAttaque : argPasDansSolu) {  
+			for (String argSoluPot1 : arguments) { 
+				if (debat.getGraph().get(argAttaque).contains(argSoluPot1)) { 
 					boolean contredit = false;
 					int i = 0;
-					while (!contredit && i<arguments.size()) { // TANT QUE ARGATTAQUE N'EST PAS CONTREDIT ET QU'IL RESTE DES ARGUMENTS DANS E
-						if (debat.getGraph().get(arguments.get(i)).contains(argAttaque)) { // SI UN ARGUMENT DE E CONTREDIT ARGATTAQUE ON SORT
+					while (!contredit && i<arguments.size()) {
+						if (debat.getGraph().get(arguments.get(i)).contains(argAttaque)) {
 							contredit = true;
 						}
 						i++;
 					}
-					if (contredit == false) { // SI AUCUN ARGUMENT DE E N'A CONTREDIT ARGATTAQUE ALORS L'ENSEMBLE E NE SE DEFEND PAS
+					if (contredit == false) { 
 						return false;
 					}		
 				}
 			}
 		}
-		return true; // ENSEMBLE E EST ADMISSIBLE
+		return true; 
 	}
 	
 	/**
