@@ -15,6 +15,8 @@ import java.util.StringTokenizer;
 
 public class Menu {
 	
+	private Scanner clavier = new Scanner(System.in);
+	
 	public Menu() {
 	}
 	
@@ -22,14 +24,10 @@ public class Menu {
 	/**
 	*	Nom : menuManuelle
 	*	@param NONE
-	*	@return NONE
-	*	Description : Permet de cr�er un d�bat et de tester si des ensembles d'arguments sont admissibles ou pas
+	*	@return DebatManuelle
+	*	Description : Permet de creer un debat manuellement
 	**/
-	public void menuManuelle() {
-		DebatManuelle debat = new DebatManuelle();
-		Scanner clavier = new Scanner(System.in);
-		
-		
+	public DebatManuelle menuManuelle(DebatManuelle debat) {
 		/***** 
 		**  CREATION DU GRAPHE
 		******/
@@ -65,12 +63,21 @@ public class Menu {
 					System.out.println("\nMauvais choix de nombre");
 			}
 		}while(!fin);
-		
-		
+		return debat;
+	}
+	
+	/**
+	 * Nom : menuMannelleSol
+	 * @param DebatManuelle debat
+	 * @return NONE
+	 * Description : Methode qui sert a tester des solution d'un debat manuellement
+	 */
+	public void menuMannelleSol(DebatManuelle debat ) {
 		/***** 
 		**  SOLUTION POTENTIELLE
 		******/
-		fin=false;
+		int choix;
+		boolean fin=false;
 		SolutionPotentielle ensembleE = new SolutionPotentielle();
 		String arg;
 		do {
@@ -120,7 +127,6 @@ public class Menu {
 			}
 		}while(!fin);
 		
-		clavier.close();
 	}
 	
 	
@@ -130,9 +136,8 @@ public class Menu {
 	*	@return NONE
 	*	Description : Permet de cr�er un d�bat � partir d'un fichier
 	**/
-	public void menuAutoFichier(String fichier, DebatManuelle Debat) {
-		
-		Scanner clavier = new Scanner(System.in);   
+	public void menuAutoFichier(String fichier, DebatManuelle debat) {
+		 
 		String ligne;                               // Va stocker chaque ligne du fichier
 		int nb = 0;                                 // Variable enti�re � incr�menter � chaque nouvelle ligne pour indiquer quel ligne est responsable d'une exception
 		String argument1, argument2;                // Pour stocker les arguments donn� par le fichier
@@ -171,7 +176,7 @@ public class Menu {
 						throw new IOException("Ligne "+nb+", le nom de l'argument ne doit pas �tre �gale � \"argument\" ou \"contradiction\"");
 					}
 					
-					Debat.ajoutArgumentsString(argument1);                                    // On ajoute l'argument au d�but
+					debat.ajoutArgumentsString(argument1);                                    // On ajoute l'argument au d�but
 					
 					tabArg.add(argument1);
 					
@@ -225,7 +230,7 @@ public class Menu {
 						throw new IOException("Ligne "+nb+", l'argument "+argument2+" n'a pas encore �t� ajout� au d�bat");         
 					}
 					
-					Debat.ajoutContradictions(argument1, argument2);
+					debat.ajoutContradictions(argument1, argument2);
 					
 				}else {
 					throw new IOException("Ligne "+nb+", probl�me de mise en forme");         // LE FICHIER N'EST PAS DE LA BONNE FORME
@@ -244,7 +249,6 @@ public class Menu {
 			clavier.close();
 	    }
 		
-		clavier.close();
 		
 		//Debat.afficheDebat();                                // (� utiliser pour tester le programme) affiche les �tapes de cr�ation du d�bat cr�er � partir du fichier
 	}
@@ -256,6 +260,7 @@ public class Menu {
 		List<List<List<String>>> ensSolPos=ensSol.getEnsSolPos();
 		List<List<List<String>>> ensSolAdm =ensSol.getEnsSolAdm(ensSolPos);
 		List<List<List<String>>> ensSolPref=ensSol.getensSolPref(ensSolAdm);
+		
 		
 	}
 }

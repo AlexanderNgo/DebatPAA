@@ -68,7 +68,7 @@ public class DebatManuelle {
 	**/
 	public void afficheDebat() {                 // AFFICHE LE GRAPHE (AIDE POUR LES TESTS)
 		StringBuffer debat = new StringBuffer();
-		debat.append("\nGraphe : \n");
+		debat.append("\nDebat : \n");
 		for (String arg : graphe.keySet()) {
 			debat.append(arg +" : [ ");
 			for(int i = 0; i < graphe.get(arg).size(); i++) {
@@ -79,7 +79,7 @@ public class DebatManuelle {
 				}
 				
 			}
-			debat.append("]\n");
+			debat.append(" ]\n");
 		}
 		
 		System.out.println(debat.toString());
@@ -93,7 +93,7 @@ public class DebatManuelle {
 	**/
 	public void ajoutArgumentsString(String s) {
 		if ( graphe.containsKey(s)) {
-			System.out.println(s+" est d�ja un argument du d�bat");
+			System.out.println(s+" est deja un argument du d�bat");
 		}else {
 			graphe.put(s, new ArrayList<String>());
 		}

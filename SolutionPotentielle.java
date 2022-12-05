@@ -12,6 +12,7 @@ public class SolutionPotentielle {
 	/**
 	 * Nom : setArguments
 	 * @param List<String> arg
+	 * @return NONE
 	 * Description : Methode qui remplace l'attribut arguments par un autre donné 
 	 */
 	public void setArguments(List<String> arg) {
