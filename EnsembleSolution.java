@@ -23,7 +23,7 @@ public class EnsembleSolution {
 	 * @param List<String> l1
 	 * @param List<String> l2
 	 * @return List<String>
-	 * Description: Réalise l'union des valeurs de 2 listes
+	 * Description: Rï¿½alise l'union des valeurs de 2 listes
 	 */
 	
 	private List<String> union(List<String> l1, List<String> l2) {
@@ -47,7 +47,7 @@ public class EnsembleSolution {
 	/**
 	 * Nom : getEnsSolPos
 	 * @return List<List<List<String>>> ensSolPos
-	 * Description : Methode qui retourne l'ensemble des possibilités de E  
+	 * Description : Methode qui retourne l'ensemble des possibilitï¿½s de E  
 	 */
     public List<List<List<String>>> getEnsSolPos(){
     	List<List<List<String>>> ensSolPos = new ArrayList<List<List<String>>>(); //ensemble des solutions possibles
@@ -89,34 +89,51 @@ public class EnsembleSolution {
     * @return List<List<List<String>>>
     * Description : Methode qui retourne l'ensemble des solutions admissibles d'un debat
     */
-    public List<List<List<String>>> getEnsSolAdm(List<List<List<String>>> ensSolPos){
+    public List<List<String>> getEnsSolAdm(List<List<List<String>>> ensSolPos){
     	
-    	List<List<List<String>>> ensSolAdm =new ArrayList<List<List<String>>>();
+    	List<List<String>> ensSolAdm =new ArrayList<List<String>>();
     	SolutionPotentielle solPos= new SolutionPotentielle();
     	
-    	for(int i =0;i<ensSolPos.size();i++) {
+    	ensSolAdm.add(new ArrayList<String>());
+    	
+    	for(int i =1;i<ensSolPos.size() ;i++) {
     		List<List<String>> listArg =ensSolPos.get(i);
-    		List<List<String>> listArgAdm = new ArrayList<List<String>>();
     		for(int j=0;j<listArg.size();j++) {
     			solPos.setArguments(listArg.get(j));
     			if (solPos.verifnoPrint(debat)) {
-    				listArgAdm.add((listArg.get(j)));
+    				ensSolAdm.add((listArg.get(j)));
     			}
     		}
-    		ensSolAdm.add(listArgAdm);
     	}
     	return ensSolAdm;
     }
     /**
-     * Nom : getEnsSolPref
-     * @param List<List<List<String>>> ensSolAdm
-     * @return List<List<List<String>>>
-     * Description : Methode qui retourne l'ensemble des solutions preferees d'un debat
+     * Methode qui retourne l'ensemble des solutions preferees d'un debat
+     * @param List<List<String>> ensSolAdm
+     * @return List<List<String>> ensSolPref
      */
-    public List<List<List<String>>> getensSolPref(List<List<List<String>>> ensSolAdm){
-    	List<List<List<String>>> ensSolPos =new ArrayList<List<List<String>>>();
+    public List<List<String>> getensSolPref(List<List<String>> ensSolAdm){
+    	List<List<String>> ensSolPref =new ArrayList<List<String>>();
     	
-    	return ensSolPos;
+    	for(int i=1;i<ensSolAdm.size();i++) {
+    		List<String> arg =ensSolAdm.get(i);
+        	boolean isNotContains=true;
+    		for(int j=1;j<ensSolAdm.size();j++) {
+    			if(j!=i) {
+    				if(ensSolAdm.get(j).containsAll(arg)) {
+        				isNotContains =false;
+        			}
+    			}
+    		}
+    		if (isNotContains) {
+    			ensSolPref.add(arg);	
+    		}
+    	}
+    	
+    	if(ensSolPref.isEmpty()) {
+    		ensSolPref.add(new ArrayList<String>());
+    	}
+    	return ensSolPref;
     }
     
 }

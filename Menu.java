@@ -258,8 +258,8 @@ public class Menu {
 		//TODO
 		EnsembleSolution ensSol=new EnsembleSolution(debat);
 		List<List<List<String>>> ensSolPos=ensSol.getEnsSolPos();
-		List<List<List<String>>> ensSolAdm =ensSol.getEnsSolAdm(ensSolPos);
-		List<List<List<String>>> ensSolPref=ensSol.getensSolPref(ensSolAdm);
+		List<List<String>> ensSolAdm =ensSol.getEnsSolAdm(ensSolPos);
+		List<List<String>> ensSolPref=ensSol.getensSolPref(ensSolAdm);
 		
 		
 	}

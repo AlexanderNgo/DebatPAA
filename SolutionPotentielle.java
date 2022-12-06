@@ -13,7 +13,7 @@ public class SolutionPotentielle {
 	 * Nom : setArguments
 	 * @param List<String> arg
 	 * @return NONE
-	 * Description : Methode qui remplace l'attribut arguments par un autre donné 
+	 * Description : Methode qui remplace l'attribut arguments par un autre donnï¿½ 
 	 */
 	public void setArguments(List<String> arg) {
 		this.arguments=arg;
@@ -176,13 +176,13 @@ public class SolutionPotentielle {
 	*	Description : Retourne la solution potentielle E
 	**/
 	public String toString() {
-		StringBuffer sb=new StringBuffer("L'ensemble E {");
+		StringBuffer sb=new StringBuffer("L'ensemble E { ");
 		for (String arg:arguments) {
 			sb.append(arg);
 			sb.append(",");
 		}
 		sb.deleteCharAt(sb.length()-1);
-		sb.append("}");
+		sb.append(" }");
 		return sb.toString();
 	}
 }
