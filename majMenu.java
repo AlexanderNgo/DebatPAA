@@ -1,6 +1,7 @@
 package interfaceUtilisateur;
 
 import programmeManuelle.DebatManuelle;
+
 import programmeManuelle.SolutionPotentielle;
 import solutionAuto.EnsembleSolution;
 
@@ -256,6 +257,12 @@ public class Menu {
 		
 		//Debat.afficheDebat();                                // (� utiliser pour tester le programme) affiche les �tapes de cr�ation du d�bat cr�er � partir du fichier
 	}
+	/**
+	 * Nom : menuAutoSol
+	 * @param DebatManuelle debat
+	 * @return NONE
+	 * Description : Menu qui propose les 4 options demandées
+	 */
 	
 	public void menuAutoSolu(DebatManuelle debat) {
 		// Partie affichage menu et recherche d�une solution admissible, ou pr�f�r�e.
@@ -279,20 +286,34 @@ public class Menu {
 			switch(res)
 			{
 				case 1 : 
-					System.out.println(afficheSoluAdm(ensSolAdm));
+					if(existSoluAdm(ensSolAdm)==false)
+					{
+						System.out.println("Il n'existe pas de solution Admissible\n");
+					}
+					else
+					{
+						System.out.println("Voici l'ensemble des solutions Admissibles existantes : "+ensSolAdm);
+					}
 					break;
 				case 2 :
-					System.out.println(afficheSoluPref(ensSolPref));
+					if(existSoluPref(ensSolAdm)==false)
+					{
+						System.out.println("Il n'existe pas de solution Preferee\n");
+					}
+					else
+					{
+						System.out.println("Voici l'ensemble des solutions Preferees existantes : "+ensSolPref);
+					}
 					break;
 				case 3 :
 					System.out.println("1) Sauvegarder la solution preferee ou 2) la solution admissible ? : \n");
 					rep = scan.nextInt();
-					if(rep == 1 && ensSolPref.isEmpty() == false) // verif qu'il y a bien une solution pref (sinon sauvegarder quand meme mais fichier vide)
+					if(rep == 1 && existSoluPref(ensSolPref) == true) // verif qu'il y a bien une solution pref (sinon sauvegarder quand meme mais fichier vide)
 					{
 						String nomFichier = "SauvegardeSoluPref.txt";
 						sauvegarderSolu(nomFichier,ensSolPref);
 					}
-					else if(rep == 2 && ensSolAdm.isEmpty() == false)
+					else if(rep == 2 && existSoluAdm(ensSolAdm)==true)
 					{
 						String nomFichier = "SauvegardeSoluAdm.txt";
 						sauvegarderSolu(nomFichier,ensSolAdm);
@@ -309,42 +330,46 @@ public class Menu {
 		scan.close();
 		
 	}
-	public String afficheSoluAdm(List<List<String>> sol)
+	/**
+	 * Nom : existSoluAdm
+	 * @param List<List<String>>
+	 * @return boolean
+	 * Description : Vérifie s'il existe une solution admissible
+	 */
+	public boolean existSoluAdm(List<List<String>> sol)
 	{
 		if(sol.isEmpty())
 		{
-			return "Pas de solution admissible\n";
+			return false;
 		}
 		else
 		{
-			StringBuffer sb = new StringBuffer();
-			sb.append("{ ");
-			for(int i = 0;i<sol.size();i++) //Si plusieurs élement dans les sous liste rajouter une boucle for pour la parcourir
-			{
-				sb.append(sol.get(i).get(0)+", ");
-			}
-			sb.append("}");
-			return sb.toString();
+			return true;
 		}
 	}
-	public String afficheSoluPref(List<List<String>> sol)
+	/**
+	 * Nom : existSoluPref
+	 * @param List<List<String>>
+	 * @return boolean
+	 * Description : Vérifie s'il existe une solution préférée
+	 */
+	public boolean existSoluPref(List<List<String>> sol)
 	{
 		if(sol.isEmpty())
 		{
-			return "Pas de solution preferee\n";
+			return false;
 		}
 		else
 		{
-			StringBuffer sb = new StringBuffer();
-			sb.append("{ ");
-			for(int i = 0;i<sol.size();i++)
-			{
-				sb.append(sol.get(i).get(0)+", "); //Si plusieurs élement dans les sous liste rajouter une boucle for pour la parcourir
-			}
-			sb.append("}");
-			return sb.toString();
+			return true;
 		}
 	}
+	/**
+	 * Nom : sauvegarderSolu
+	 * @param String,List<List<String>>
+	 * @return NONE
+	 * Description : Sauvegarde dans le fichier nomFichier l'ensemble des arguments de la solution (admissible OU preférée)
+	 */
 	public void sauvegarderSolu(String nomFichier,List<List<String>> sol)
 	{
 		try
@@ -356,12 +381,9 @@ public class Menu {
 				FileWriter fw = new FileWriter(f);
 				for(int i = 0;i<sol.size();i++)
 				{
-					System.out.println(sol.get(i));
-					for(int j = 0;j<sol.get(i).size();j++)
-					{
-						fw.write(sol.get(i).get(j)+"\n");
-					}
+					fw.write("Arguments :" +sol.get(i)+"\n");
 				}
+				System.out.println("L'ensemble "+sol+" a ete sauvegarder dans le fichier : "+nomFichier);
 				fw.close();
 			}
 			else
