@@ -2,6 +2,7 @@ package interfaceUtilisateur;
 
 import programmeManuelle.DebatManuelle;
 
+
 import programmeManuelle.SolutionPotentielle;
 import solutionAuto.EnsembleSolution;
 
@@ -17,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.util.InputMismatchException;
 
 public class Menu {
 	
@@ -36,39 +38,52 @@ public class Menu {
 		/***** 
 		**  CREATION DU GRAPHE
 		******/
-		System.out.print("Combien d'arguments possede votre debat ? ");
-		int nbArguments = clavier.nextInt();
-		
-		debat.ajoutArguments(nbArguments);
-		
-		boolean fin = false;
-		int choix;
-		do {	
-			System.out.println("\n1) ajouter une contradiction");
-			System.out.println("2) fin");
-			System.out.print("\nChoisissez parmi les options ci-dessus et entrer une valeur entre 1 et 2 : ");
-			choix = clavier.nextInt();
+		try
+		{
+			System.out.print("Combien d'arguments possede votre debat ? ");
+			int nbArguments = clavier.nextInt();
 			
-			switch(choix) {
-				case 1:
-					System.out.print("\nEntrez le premier argument qui contredira le second : ");
-					String a1 = clavier.next();
-					System.out.print("Entrez le second argument qui sera contredit par le premier : ");
-					String a2 = clavier.next();
-					
-					debat.ajoutContradictions(a1, a2);
-					debat.afficheDebat();  // AFFICHE LE GRAPHE OBTENUE APRES L'AJOUT DE LA CONTRADICTION (AIDE POUR LES TESTS)
-					break;
-					
-				case 2:
-					System.out.println("\nVous avez termine de representer le graphe qui decrit les arguments et les contradictions.");
-					fin = true;
-					break;
-				default:
-					System.out.println("\nMauvais choix de nombre");
+			debat.ajoutArguments(nbArguments);
+			
+			boolean fin = false;
+			int choix;
+			do {	
+				System.out.println("\n1) ajouter une contradiction");
+				System.out.println("2) fin");
+				System.out.print("\nChoisissez parmi les options ci-dessus et entrer une valeur entre 1 et 2 : ");
+				choix = clavier.nextInt();
+				
+				switch(choix) {
+					case 1:
+						System.out.print("\nEntrez le premier argument qui contredira le second : ");
+						String a1 = clavier.next();
+						System.out.print("Entrez le second argument qui sera contredit par le premier : ");
+						String a2 = clavier.next();
+						
+						debat.ajoutContradictions(a1, a2);
+						debat.afficheDebat();  // AFFICHE LE GRAPHE OBTENUE APRES L'AJOUT DE LA CONTRADICTION (AIDE POUR LES TESTS)
+						break;
+						
+					case 2:
+						System.out.println("\nVous avez termine de representer le graphe qui decrit les arguments et les contradictions.");
+						fin = true;
+						break;
+					default:
+						System.out.println("\nMauvais choix de nombre");
+				}
 			}
-		}while(!fin);
-		return debat;
+			while(!fin);
+			//return debat;
+		}
+		catch(InputMismatchException e)
+		{
+			e = new InputMismatchException("Erreur, veuillez entrer un nombre entier lors de la saisie");
+			System.out.println(e.getMessage());
+		}
+		finally
+		{
+			return debat;
+		}
 	}
 	
 	/**
@@ -271,63 +286,73 @@ public class Menu {
 		List<List<List<String>>> ensSolPos=ensSol.getEnsSolPos();
 		List<List<String>> ensSolAdm =ensSol.getEnsSolAdm(ensSolPos);
 		List<List<String>> ensSolPref=ensSol.getensSolPref(ensSolAdm);
-		Scanner scan = new Scanner(System.in);
+		List<String> derniereSol = null;
 		int rep = 0;
 		int res;
-		do
+		try
 		{
-			System.out.println("1) chercher une solution admissible 2) chercher une solution preferee 3) sauvegarder la solution 4) fin \n");
-			res = scan.nextInt();
-			while(res < 1 || res > 4)
+			do
 			{
-				System.out.println("Entrez une valeur entre 1 et 4 seulement : \n");
-				res = scan.nextInt();
+				System.out.println("1) chercher une solution admissible 2) chercher une solution preferee 3) sauvegarder la solution 4) fin \n");
+				res = clavier.nextInt();
+				while(res < 1 || res > 4)
+				{
+					System.out.println("Entrez une valeur entre 1 et 4 seulement : \n");
+					res = clavier.nextInt();
+				}
+				switch(res)
+				{
+					case 1 : 
+						if(existSoluAdm(ensSolAdm)==false)
+						{
+							System.out.println("Il n'existe pas de solution Admissible\n");
+						}
+						else
+						{
+							derniereSol = getUneSolution(ensSolAdm);
+							System.out.println("Voici une solution Admissible : "+derniereSol);
+						}
+						break;
+					case 2 :
+						if(existSoluPref(ensSolAdm)==false)
+						{
+							System.out.println("Il n'existe pas de solution Preferee\n");
+						}
+						else
+						{
+							derniereSol = getUneSolution(ensSolPref);
+							System.out.println("Voici une solution Preferee : "+derniereSol);
+						}
+						break;
+					case 3 :
+						System.out.println("1) Sauvegarder la solution preferee ou 2) la solution admissible ? : \n");
+						rep = clavier.nextInt();
+						if(rep == 1 && existSoluPref(ensSolPref) == true) // verif qu'il y a bien une solution pref (sinon sauvegarder quand meme mais fichier vide)
+						{
+							String nomFichier = "SauvegardeSoluPref.txt";
+							sauvegarderSolu(nomFichier,derniereSol);
+						}
+						else if(rep == 2 && existSoluAdm(ensSolAdm)==true)
+						{
+							String nomFichier = "SauvegardeSoluAdm.txt";
+							sauvegarderSolu(nomFichier,derniereSol);
+						}
+						break;
+					case 4 : 
+						System.out.println("Fin du programme \n");
+						break;
+					default : 
+						break;
+				}
 			}
-			switch(res)
-			{
-				case 1 : 
-					if(existSoluAdm(ensSolAdm)==false)
-					{
-						System.out.println("Il n'existe pas de solution Admissible\n");
-					}
-					else
-					{
-						System.out.println("Voici l'ensemble des solutions Admissibles existantes : "+ensSolAdm);
-					}
-					break;
-				case 2 :
-					if(existSoluPref(ensSolAdm)==false)
-					{
-						System.out.println("Il n'existe pas de solution Preferee\n");
-					}
-					else
-					{
-						System.out.println("Voici l'ensemble des solutions Preferees existantes : "+ensSolPref);
-					}
-					break;
-				case 3 :
-					System.out.println("1) Sauvegarder la solution preferee ou 2) la solution admissible ? : \n");
-					rep = scan.nextInt();
-					if(rep == 1 && existSoluPref(ensSolPref) == true) // verif qu'il y a bien une solution pref (sinon sauvegarder quand meme mais fichier vide)
-					{
-						String nomFichier = "SauvegardeSoluPref.txt";
-						sauvegarderSolu(nomFichier,ensSolPref);
-					}
-					else if(rep == 2 && existSoluAdm(ensSolAdm)==true)
-					{
-						String nomFichier = "SauvegardeSoluAdm.txt";
-						sauvegarderSolu(nomFichier,ensSolAdm);
-					}
-					break;
-				case 4 : 
-					System.out.println("Fin du programme \n");
-					break;
-				default : 
-					break;
-			}
+			while(res !=4);
+		
 		}
-		while(res !=4);
-		scan.close();
+		catch(InputMismatchException e)
+		{
+			e = new InputMismatchException("Erreur, veuillez entrer un nombre entier lors de la saisie");
+			System.out.println(e.getMessage());
+		}
 		
 	}
 	/**
@@ -365,12 +390,64 @@ public class Menu {
 		}
 	}
 	/**
+	 * Nom : getUneSolution
+	 * @param List<List<String>>
+	 * @return List<String>
+	 * Description : Retourne UNE solution parmi l'ensemble des solutions (hormis l'ensemble vide)
+	 */
+	public List<String> getUneSolution(List<List<String>> sol)
+	{
+		//pas nécessaire de vérifier l'existance de l'ensemble car ça sera fait lors de l'appel
+		int i = 0;
+		while(sol.get(i).size() == 0)
+		{
+			i++;
+		}
+		return sol.get(i);
+	}
+	/*public String afficheSoluAdm(List<List<String>> sol)
+	{
+		if(sol.isEmpty())
+		{
+			return "Pas de solution admissible\n";
+		}
+		else
+		{
+			StringBuffer sb = new StringBuffer();
+			sb.append("{ ");
+			for(int i = 0;i<sol.size();i++) //Si plusieurs élement dans les sous liste rajouter une boucle for pour la parcourir
+			{
+				sb.append(sol.get(i).get(0)+", ");
+			}
+			sb.append("}");
+			return sb.toString();
+		}
+	}
+	public String afficheSoluPref(List<List<String>> sol)
+	{
+		if(sol.isEmpty())
+		{
+			return "Pas de solution preferee\n";
+		}
+		else
+		{
+			StringBuffer sb = new StringBuffer();
+			sb.append("{ ");
+			for(int i = 0;i<sol.size();i++)
+			{
+				sb.append(sol.get(i).get(0)+", "); //Si plusieurs élement dans les sous liste rajouter une boucle for pour la parcourir
+			}
+			sb.append("}");
+			return sb.toString();
+		}
+	}*/
+	/**
 	 * Nom : sauvegarderSolu
 	 * @param String,List<List<String>>
 	 * @return NONE
-	 * Description : Sauvegarde dans le fichier nomFichier l'ensemble des arguments de la solution (admissible OU preférée)
+	 * Description : Sauvegarde dans le fichier nomFichier la dernière solution montrée (adm ou pref)
 	 */
-	public void sauvegarderSolu(String nomFichier,List<List<String>> sol)
+	public void sauvegarderSolu(String nomFichier,List<String> sol)
 	{
 		try
 		{
@@ -379,10 +456,7 @@ public class Menu {
 			if(f.exists()) // vérif que le fichier a bien été crée
 			{
 				FileWriter fw = new FileWriter(f);
-				for(int i = 0;i<sol.size();i++)
-				{
-					fw.write("Arguments :" +sol.get(i)+"\n");
-				}
+				fw.write("Arguments : "+sol);
 				System.out.println("L'ensemble "+sol+" a ete sauvegarder dans le fichier : "+nomFichier);
 				fw.close();
 			}
