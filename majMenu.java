@@ -5,7 +5,7 @@ import programmeManuelle.DebatManuelle;
 
 
 import programmeManuelle.SolutionPotentielle;
-import SolutionAuto.EnsembleSolution;
+import solutionAuto.EnsembleSolution;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -16,11 +16,8 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.io.File;
-import java.io.IOException;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.util.InputMismatchException;
-import java.util.Random;
 
 public class Menu {
 	
@@ -493,7 +490,7 @@ public class Menu {
 					fw.write(sol.get(i)+",");
 				}
 				//fw.write("Arguments : "+sol);
-				System.out.println("L'ensemble "+sol+" a ete sauvegarder dans le fichier : "+nomFichier);
+				System.out.println("La solution "+sol+" a ete sauvegardee dans le fichier : "+nomFichier);
 				fw.close();
 			}
 			else
