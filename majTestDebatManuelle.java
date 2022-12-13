@@ -2,11 +2,12 @@ package programmeManuelle;
 
 import interfaceUtilisateur.Menu;
 
+
 import java.io.File;
 import java.util.Scanner;
 
 
-public class TestDebatManuelle 
+public class majTestDebatManuelle 
 {
 	
 	public static void main(String[] args) 
@@ -16,11 +17,11 @@ public class TestDebatManuelle
 		Scanner scan = new Scanner(System.in);
 		int res;
 		//System.out.println("1) remplir le graphe manuellement 2) automatiquement ? : \n");
-		res = m.saisi("1) remplir le graphe manuellement 2) automatiquement ? : \n");
+		res = m.saisi("1) remplir le graphe manuellement 2) automatiquement ? :");
 		while(res != 1 && res !=2)
 		{
 			//System.out.println("Entrez soit 1 soit 2 : \n");
-			res = m.saisi("Entrez soit 1 soit 2 : \n");
+			res = m.saisi("Entrez soit 1 soit 2 :");
 		}
 		if(res == 1)
 		{
@@ -29,8 +30,11 @@ public class TestDebatManuelle
 		}
 		else if(res == 2)
 		{
-			m.menuAutoFichier(args[0], debat);
-			File f = new File(args[0]);
+			String nomFichier = new String();
+			System.out.println("Entrez le chemin où se trouve votre fichier : ");
+			nomFichier = scan.next();
+			m.menuAutoFichier(nomFichier, debat);
+			File f = new File(nomFichier);
 			if(f.exists()) //vérifier que le fichier existe avant d'exécuter le menu
 				m.menuAutoSolu(debat);
 		}
