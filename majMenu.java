@@ -4,6 +4,7 @@ import programmeManuelle.DebatManuelle;
 
 
 
+
 import programmeManuelle.SolutionPotentielle;
 import solutionAuto.EnsembleSolution;
 
@@ -23,7 +24,8 @@ public class Menu {
 	
 	private Scanner clavier = new Scanner(System.in);
 	
-	public Menu() {
+	public Menu() //constructeur par défaut
+	{
 	}
 	
 	
@@ -37,7 +39,6 @@ public class Menu {
 		/***** 
 		**  CREATION DU GRAPHE
 		******/
-		//System.out.print("Combien d'arguments possede votre debat ? ");
 		int nbArguments = saisi("Combien d'arguments possede votre debat ? ");
 			
 		debat.ajoutArguments(nbArguments);
@@ -47,7 +48,6 @@ public class Menu {
 		do {	
 			System.out.println("\n1) ajouter une contradiction");
 			System.out.println("2) fin");
-			//System.out.print("\nChoisissez parmi les options ci-dessus et entrer une valeur entre 1 et 2 : ");
 			choix = saisi("\nChoisissez parmi les options ci-dessus et entrer une valeur entre 1 et 2 : ");
 				
 			switch(choix) {
@@ -79,7 +79,7 @@ public class Menu {
 	 * @return NONE
 	 * Description : Methode qui sert a tester des solution d'un debat manuellement
 	 */
-	public void menuMannelleSol(DebatManuelle debat ) {
+	public void menuMannelleSol(DebatManuelle debat ) { // fonction qui affichait le menu demandé lors de la première phase
 		/***** 
 		**  SOLUTION POTENTIELLE
 		******/
@@ -94,7 +94,6 @@ public class Menu {
 			System.out.println("3) Verifier la solution");
 			System.out.println("4) fin");
 			
-			//System.out.print("\nChoisissez parmi les options ci-dessus et entrer une valeur entre 1 et 4 : ");
 			choix = saisi("\nChoisissez parmi les options ci-dessus et entrer une valeur entre 1 et 4 : ");
 			
 			switch(choix) {
@@ -267,24 +266,21 @@ public class Menu {
 	 */
 	
 	public void menuAutoSolu(DebatManuelle debat) {
-		// Partie affichage menu et recherche d�une solution admissible, ou pr�f�r�e.
-		//TODO
+
 		EnsembleSolution ensSol=new EnsembleSolution(debat);
 		List<List<List<String>>> ensSolPos=ensSol.getEnsSolPos();
 		List<List<String>> ensSolAdm =ensSol.getEnsSolAdm(ensSolPos);
 		List<List<String>> ensSolPref=ensSol.getensSolPref(ensSolAdm);
 		List<String> derniereSol = null;
 		int rep = 0; // pour savoir quel est la derniere sol
-		int res;
-		int nombreAppelFonctionAdm = 0;
+		int res;//résultat de la saisie
+		int nombreAppelFonctionAdm = 0; //compteur du nombre de fois où l'on appel la fonction getUneSolution
 		int nombreAppelFonctionPref = 0;
 		do
 		{
-			//System.out.println("1) chercher une solution admissible 2) chercher une solution preferee 3) sauvegarder la solution 4) fin \n");
 			res = saisi("1) chercher une solution admissible 2) chercher une solution preferee 3) sauvegarder la solution 4) fin ");
 			while(res < 1 || res > 4)
 			{
-				//System.out.println("Entrez une valeur entre 1 et 4 seulement : \n");
 				res = saisi("Entrez une valeur entre 1 et 4 seulement : ");
 			}
 			switch(res)
@@ -296,12 +292,7 @@ public class Menu {
 					}
 					else
 					{
-						//nombreAppelFonctionAdm = ++nombreAppelFonctionAdm;
 						derniereSol = getUneSolution(ensSolAdm,nombreAppelFonctionAdm);
-						if(nombreAppelFonctionAdm >= ensSolAdm.size())
-						{
-							nombreAppelFonctionAdm = -1;
-						}
 						rep = 1;
 						for(int i = 0;i< derniereSol.size();i++)
 						{
@@ -313,8 +304,11 @@ public class Menu {
 								System.out.print(derniereSol.get(i)+",");
 						}
 						nombreAppelFonctionAdm++;
+						if(nombreAppelFonctionAdm >= ensSolAdm.size())
+						{
+							nombreAppelFonctionAdm = 0;
+						}
 						System.out.println();
-						//System.out.println("Voici une solution Admissible : "+derniereSol);
 					}
 					break;
 				case 2 :
@@ -324,7 +318,6 @@ public class Menu {
 					}
 					else
 					{
-						//nombreAppelFonctionPref = ++nombreAppelFonctionPref;
 						derniereSol = getUneSolution(ensSolPref,nombreAppelFonctionPref);
 						if(nombreAppelFonctionPref >= ensSolPref.size())
 						{
@@ -342,12 +335,15 @@ public class Menu {
 						}
 						System.out.println();
 						nombreAppelFonctionPref++;
-						//System.out.println("Voici une solution Preferee : "+derniereSol);
+						if(nombreAppelFonctionPref >= ensSolPref.size())
+						{
+							nombreAppelFonctionPref= 0;
+						}
 					}
 					break;
 				case 3 :
 					System.out.println("On sauvegardera la derniere solution montree");
-					String nomFichier = "SauvegardeSolu.txt";
+					String nomFichier = "SauvegardeSolu.txt"; //on suppose qu'on sauvegarde tout dans un seul et même fichier en ne gardant que la derniere solution
 					if(rep == 2 && existSoluPref(ensSolPref) == true) // verif qu'il y a bien une solution pref (sinon sauvegarder quand meme mais fichier vide)
 					{
 						
@@ -360,7 +356,7 @@ public class Menu {
 					}
 					break;
 				case 4 : 
-					System.out.println("Fin du programme \n");
+					System.out.println("Fin du programme ");
 					break;
 				default : 
 					break;
@@ -407,75 +403,20 @@ public class Menu {
 	 * Nom : getUneSolution
 	 * @param List<List<String>>
 	 * @return List<String>
-	 * Description : Retourne UNE solution parmi l'ensemble des solutions (hormis l'ensemble vide)
+	 * Description : Retourne UNE solution parmi l'ensemble des solutions 
 	 */
 	private List<String> getUneSolution(List<List<String>> sol,int indice)
 	{
-		//pas nécessaire de vérifier l'existance de l'ensemble car ça sera fait lors de l'appel
-		//s'il y a que l'ensemble vide comme solution :
-		//System.out.println("Voici l'ensemble des solutions possibles : "+sol); // à mettre en commentaire !!
-		/*if(sol.size() == 1) //forcément l'ensemble vide
-		{
-			return sol.get(0);
-		}*/
-		/*else
-		{
-			Random random = new Random();
-			int res = random.nextInt((sol.size()-1)+1);
-			while(sol.get(res).size() == 0)// si on tombe sur l'ensemble vide, on continue à chercher une autre ensemble
-			{
-				res = random.nextInt((sol.size()-1)+1); // recommence un nouveau nombre aléatoire
-			}
-			return sol.get(res);
-		}*/
-		if(indice >= sol.size())
-		{
-			indice = 0;
-		}
 		return sol.get(indice);
 	}
-	/*public String afficheSoluAdm(List<List<String>> sol)
-	{
-		if(sol.isEmpty())
-		{
-			return "Pas de solution admissible\n";
-		}
-		else
-		{
-			StringBuffer sb = new StringBuffer();
-			sb.append("{ ");
-			for(int i = 0;i<sol.size();i++) //Si plusieurs élement dans les sous liste rajouter une boucle for pour la parcourir
-			{
-				sb.append(sol.get(i).get(0)+", ");
-			}
-			sb.append("}");
-			return sb.toString();
-		}
-	}
-	public String afficheSoluPref(List<List<String>> sol)
-	{
-		if(sol.isEmpty())
-		{
-			return "Pas de solution preferee\n";
-		}
-		else
-		{
-			StringBuffer sb = new StringBuffer();
-			sb.append("{ ");
-			for(int i = 0;i<sol.size();i++)
-			{
-				sb.append(sol.get(i).get(0)+", "); //Si plusieurs élement dans les sous liste rajouter une boucle for pour la parcourir
-			}
-			sb.append("}");
-			return sb.toString();
-		}
-	}*/
+	
 	/**
 	 * Nom : sauvegarderSolu
 	 * @param String,List<List<String>>
 	 * @return NONE
-	 * Description : Sauvegarde dans le fichier nomFichier la dernière solution montrée (adm ou pref)
+	 * Description : Sauvegarde dans le fichier nomFichier la solution (adm ou pref)
 	 */
+	
 	private void sauvegarderSolu(String nomFichier,List<String> sol)
 	{
 		try
@@ -487,9 +428,13 @@ public class Menu {
 				FileWriter fw = new FileWriter(f);
 				for(int i = 0;i<sol.size();i++)
 				{
-					fw.write(sol.get(i)+",");
+					if(i == sol.size()-1)//afin de supprimé la virgule lorsque c'est le dernier argument de l'ensemble
+					{
+						fw.write(sol.get(i));
+					}
+					else
+						fw.write(sol.get(i)+",");
 				}
-				//fw.write("Arguments : "+sol);
 				System.out.println("La solution "+sol+" a ete sauvegardee dans le fichier : "+nomFichier);
 				fw.close();
 			}
@@ -500,6 +445,7 @@ public class Menu {
 		}
 		catch(FileNotFoundException e)
 		{
+			e = new FileNotFoundException("Le fichier n'a pas pu etre trouve");
 			System.out.println(e.getMessage());
 		}
 		catch(IOException ioe)
@@ -507,13 +453,14 @@ public class Menu {
 			System.out.println(ioe.getMessage());
 		}
 	}
+	
 	/**
 	 * Nom : saisi
 	 * @param String
 	 * @return int
 	 * Description : Methode qui permet une saisie et qui gère les erreurs de types
 	 */
-	public int saisi(String s)
+	public int saisi(String s) // s correspond aux phrases conçu pour l'utilisateur
 	{
 		boolean erreur;
 		int valeur = 0;
