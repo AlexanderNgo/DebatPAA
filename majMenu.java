@@ -277,10 +277,10 @@ public class Menu {
 		List<List<String>> ensSolAdm =ensSol.getEnsSolAdm(ensSolPos);
 		List<List<String>> ensSolPref=ensSol.getensSolPref(ensSolAdm);
 		List<String> derniereSol = null;
-		int rep = 0;
+		int rep = 0; // pour savoir quel est la derniere sol
 		int res;
-		int nombreAppelFonctionAdm = -1;
-		int nombreAppelFonctionPref = -1;
+		int nombreAppelFonctionAdm = 0;
+		int nombreAppelFonctionPref = 0;
 		do
 		{
 			//System.out.println("1) chercher une solution admissible 2) chercher une solution preferee 3) sauvegarder la solution 4) fin \n");
@@ -299,18 +299,24 @@ public class Menu {
 					}
 					else
 					{
-						nombreAppelFonctionAdm = ++nombreAppelFonctionAdm;
+						//nombreAppelFonctionAdm = ++nombreAppelFonctionAdm;
 						derniereSol = getUneSolution(ensSolAdm,nombreAppelFonctionAdm);
-						if(nombreAppelFonctionAdm >= derniereSol.size())
+						if(nombreAppelFonctionAdm >= ensSolAdm.size())
 						{
 							nombreAppelFonctionAdm = -1;
 						}
 						rep = 1;
 						for(int i = 0;i< derniereSol.size();i++)
 						{
-							System.out.print(derniereSol.get(i)+"  ");
+							if(i == derniereSol.size()-1)
+							{
+								System.out.println(derniereSol.get(i));
+							}
+							else
+								System.out.print(derniereSol.get(i)+",");
 						}
-						System.out.println("\n");
+						nombreAppelFonctionAdm++;
+						System.out.println();
 						//System.out.println("Voici une solution Admissible : "+derniereSol);
 					}
 					break;
@@ -321,31 +327,38 @@ public class Menu {
 					}
 					else
 					{
-						nombreAppelFonctionPref = ++nombreAppelFonctionPref;
+						//nombreAppelFonctionPref = ++nombreAppelFonctionPref;
 						derniereSol = getUneSolution(ensSolPref,nombreAppelFonctionPref);
-						if(nombreAppelFonctionPref >= derniereSol.size())
+						if(nombreAppelFonctionPref >= ensSolPref.size())
 						{
 							nombreAppelFonctionPref= -1;
 						}
 						rep = 2;
 						for(int i = 0;i< derniereSol.size();i++)
 						{
-							System.out.print(derniereSol.get(i)+"  ");
+							if(i == derniereSol.size()-1)
+							{
+								System.out.println(derniereSol.get(i));
+							}
+							else
+								System.out.print(derniereSol.get(i)+",");
 						}
-						System.out.println("\n");
+						System.out.println();
+						nombreAppelFonctionPref++;
 						//System.out.println("Voici une solution Preferee : "+derniereSol);
 					}
 					break;
 				case 3 :
 					System.out.println("On sauvegardera la derniere solution montree");
+					String nomFichier = "SauvegardeSolu.txt";
 					if(rep == 2 && existSoluPref(ensSolPref) == true) // verif qu'il y a bien une solution pref (sinon sauvegarder quand meme mais fichier vide)
 					{
-						String nomFichier = "SauvegardeSolu.txt";
+						
 						sauvegarderSolu(nomFichier,derniereSol);
 					}
 					else if(rep == 1 && existSoluAdm(ensSolAdm)==true) // rep == 1 implique que la derniere sol montrée était une sol adm
 					{
-						String nomFichier = "SauvegardeSolu.txt";
+						
 						sauvegarderSolu(nomFichier,derniereSol);
 					}
 					break;
@@ -365,7 +378,7 @@ public class Menu {
 	 * @return boolean
 	 * Description : Vérifie s'il existe une solution admissible
 	 */
-	public boolean existSoluAdm(List<List<String>> sol)
+	private boolean existSoluAdm(List<List<String>> sol)
 	{
 		if(sol.isEmpty())
 		{
@@ -382,7 +395,7 @@ public class Menu {
 	 * @return boolean
 	 * Description : Vérifie s'il existe une solution préférée
 	 */
-	public boolean existSoluPref(List<List<String>> sol)
+	private boolean existSoluPref(List<List<String>> sol)
 	{
 		if(sol.isEmpty())
 		{
@@ -399,7 +412,7 @@ public class Menu {
 	 * @return List<String>
 	 * Description : Retourne UNE solution parmi l'ensemble des solutions (hormis l'ensemble vide)
 	 */
-	public List<String> getUneSolution(List<List<String>> sol,int indice)
+	private List<String> getUneSolution(List<List<String>> sol,int indice)
 	{
 		//pas nécessaire de vérifier l'existance de l'ensemble car ça sera fait lors de l'appel
 		//s'il y a que l'ensemble vide comme solution :
@@ -466,7 +479,7 @@ public class Menu {
 	 * @return NONE
 	 * Description : Sauvegarde dans le fichier nomFichier la dernière solution montrée (adm ou pref)
 	 */
-	public void sauvegarderSolu(String nomFichier,List<String> sol)
+	private void sauvegarderSolu(String nomFichier,List<String> sol)
 	{
 		try
 		{
@@ -477,7 +490,7 @@ public class Menu {
 				FileWriter fw = new FileWriter(f);
 				for(int i = 0;i<sol.size();i++)
 				{
-					fw.write(sol.get(i)+"  ");
+					fw.write(sol.get(i)+",");
 				}
 				//fw.write("Arguments : "+sol);
 				System.out.println("L'ensemble "+sol+" a ete sauvegarder dans le fichier : "+nomFichier);
