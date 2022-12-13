@@ -5,7 +5,7 @@ import programmeManuelle.DebatManuelle;
 
 
 import programmeManuelle.SolutionPotentielle;
-import solutionAuto.EnsembleSolution;
+import SolutionAuto.EnsembleSolution;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -279,51 +279,73 @@ public class Menu {
 		List<String> derniereSol = null;
 		int rep = 0;
 		int res;
+		int nombreAppelFonctionAdm = -1;
+		int nombreAppelFonctionPref = -1;
 		do
 		{
 			//System.out.println("1) chercher une solution admissible 2) chercher une solution preferee 3) sauvegarder la solution 4) fin \n");
-			res = saisi("1) chercher une solution admissible 2) chercher une solution preferee 3) sauvegarder la solution 4) fin \n");
+			res = saisi("1) chercher une solution admissible 2) chercher une solution preferee 3) sauvegarder la solution 4) fin ");
 			while(res < 1 || res > 4)
 			{
-				System.out.println("Entrez une valeur entre 1 et 4 seulement : \n");
-				res = saisi("Entrez une valeur entre 1 et 4 seulement : \n");
+				//System.out.println("Entrez une valeur entre 1 et 4 seulement : \n");
+				res = saisi("Entrez une valeur entre 1 et 4 seulement : ");
 			}
 			switch(res)
 			{
 				case 1 : 
 					if(existSoluAdm(ensSolAdm)==false)
 					{
-						System.out.println("Il n'existe pas de solution Admissible\n");
+						System.out.println("Il n'existe pas de solution Admissible");
 					}
 					else
 					{
-						derniereSol = getUneSolution(ensSolAdm);
+						nombreAppelFonctionAdm = ++nombreAppelFonctionAdm;
+						derniereSol = getUneSolution(ensSolAdm,nombreAppelFonctionAdm);
+						if(nombreAppelFonctionAdm >= derniereSol.size())
+						{
+							nombreAppelFonctionAdm = -1;
+						}
 						rep = 1;
-						System.out.println("Voici une solution Admissible : "+derniereSol);
+						for(int i = 0;i< derniereSol.size();i++)
+						{
+							System.out.print(derniereSol.get(i)+"  ");
+						}
+						System.out.println("\n");
+						//System.out.println("Voici une solution Admissible : "+derniereSol);
 					}
 					break;
 				case 2 :
 					if(existSoluPref(ensSolAdm)==false)
 					{
-						System.out.println("Il n'existe pas de solution Preferee\n");
+						System.out.println("Il n'existe pas de solution Preferee");
 					}
 					else
 					{
-						derniereSol = getUneSolution(ensSolPref);
+						nombreAppelFonctionPref = ++nombreAppelFonctionPref;
+						derniereSol = getUneSolution(ensSolPref,nombreAppelFonctionPref);
+						if(nombreAppelFonctionPref >= derniereSol.size())
+						{
+							nombreAppelFonctionPref= -1;
+						}
 						rep = 2;
-						System.out.println("Voici une solution Preferee : "+derniereSol);
+						for(int i = 0;i< derniereSol.size();i++)
+						{
+							System.out.print(derniereSol.get(i)+"  ");
+						}
+						System.out.println("\n");
+						//System.out.println("Voici une solution Preferee : "+derniereSol);
 					}
 					break;
 				case 3 :
 					System.out.println("On sauvegardera la derniere solution montree");
 					if(rep == 2 && existSoluPref(ensSolPref) == true) // verif qu'il y a bien une solution pref (sinon sauvegarder quand meme mais fichier vide)
 					{
-						String nomFichier = "SauvegardeSoluPref.txt";
+						String nomFichier = "SauvegardeSolu.txt";
 						sauvegarderSolu(nomFichier,derniereSol);
 					}
 					else if(rep == 1 && existSoluAdm(ensSolAdm)==true) // rep == 1 implique que la derniere sol montrée était une sol adm
 					{
-						String nomFichier = "SauvegardeSoluAdm.txt";
+						String nomFichier = "SauvegardeSolu.txt";
 						sauvegarderSolu(nomFichier,derniereSol);
 					}
 					break;
@@ -377,16 +399,16 @@ public class Menu {
 	 * @return List<String>
 	 * Description : Retourne UNE solution parmi l'ensemble des solutions (hormis l'ensemble vide)
 	 */
-	public List<String> getUneSolution(List<List<String>> sol)
+	public List<String> getUneSolution(List<List<String>> sol,int indice)
 	{
 		//pas nécessaire de vérifier l'existance de l'ensemble car ça sera fait lors de l'appel
 		//s'il y a que l'ensemble vide comme solution :
-		System.out.println("Voici l'ensemble des solutions possibles : "+sol); // à mettre en commentaire !!
-		if(sol.size() == 1) //forcément l'ensemble vide
+		//System.out.println("Voici l'ensemble des solutions possibles : "+sol); // à mettre en commentaire !!
+		/*if(sol.size() == 1) //forcément l'ensemble vide
 		{
 			return sol.get(0);
-		}
-		else
+		}*/
+		/*else
 		{
 			Random random = new Random();
 			int res = random.nextInt((sol.size()-1)+1);
@@ -395,7 +417,12 @@ public class Menu {
 				res = random.nextInt((sol.size()-1)+1); // recommence un nouveau nombre aléatoire
 			}
 			return sol.get(res);
+		}*/
+		if(indice >= sol.size())
+		{
+			indice = 0;
 		}
+		return sol.get(indice);
 	}
 	/*public String afficheSoluAdm(List<List<String>> sol)
 	{
@@ -448,13 +475,17 @@ public class Menu {
 			if(f.exists()) // vérif que le fichier a bien été crée
 			{
 				FileWriter fw = new FileWriter(f);
-				fw.write("Arguments : "+sol);
+				for(int i = 0;i<sol.size();i++)
+				{
+					fw.write(sol.get(i)+"  ");
+				}
+				//fw.write("Arguments : "+sol);
 				System.out.println("L'ensemble "+sol+" a ete sauvegarder dans le fichier : "+nomFichier);
 				fw.close();
 			}
 			else
 			{
-				System.out.println("Erreur dans la creation du fichier \n");
+				System.out.println("Erreur dans la creation du fichier ");
 			}
 		}
 		catch(FileNotFoundException e)
