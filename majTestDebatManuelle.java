@@ -36,7 +36,6 @@ public class TestDebatManuelle
 				String nomFichier = new String();
 				System.out.println("Entrez le chemin où se trouve votre fichier ou le nom du fichier (avec l'extension .txt) : ");
 				nomFichier = scan.next();
-				//String s = "C:\\Users\\azeau\\eclipse-workspace\\Projet\\Fichier.txt";
 				m.menuAutoFichier(nomFichier, debat);
 				File f = new File(nomFichier);
 				if(f.exists()) //vérifier que le fichier existe avant d'exécuter le menu
@@ -49,12 +48,10 @@ public class TestDebatManuelle
 			}
 			catch (IOException e) 
 			{
-				//e = new IOException("Erreur d'entree/sortie");
 				System.err.println(e.getMessage());
 		    }
 			catch (IllegalArgumentException iae) 
 			{
-				//iae = new IllegalArgumentException("Erreur survenu suite à un argument incorrect");
 				System.err.println(iae.getMessage());
 			} 
 			
