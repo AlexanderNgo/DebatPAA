@@ -1,6 +1,10 @@
 package interfaceUtilisateur;
 
-import programmeManuelle.Debat;
+import programmeManuelle.DebatManuelle;
+
+
+
+
 import programmeManuelle.SolutionPotentielle;
 import solutionAuto.EnsembleSolution;
 
@@ -20,7 +24,7 @@ public class Menu {
 	
 	private Scanner clavier = new Scanner(System.in);
 	
-	public Menu() //constructeur par defaut
+	public Menu() //constructeur par défaut
 	{
 	}
 	
@@ -31,7 +35,7 @@ public class Menu {
 	*	@return DebatManuelle
 	*	Description : Permet de creer un debat manuellement
 	**/
-	public Debat menuManuelle(Debat debat) {
+	public DebatManuelle menuManuelle(DebatManuelle debat) {
 		/***** 
 		**  CREATION DU GRAPHE
 		******/
@@ -71,11 +75,11 @@ public class Menu {
 	
 	/**
 	 * Nom : menuMannelleSol
-	 * @param Debat debat
+	 * @param DebatManuelle debat
 	 * @return NONE
 	 * Description : Methode qui sert a tester des solution d'un debat manuellement
 	 */
-	public void menuMannelleSol(Debat debat ) { // fonction qui affichait le menu demande lors de la première phase
+	public void menuMannelleSol(DebatManuelle debat ) { // fonction qui affichait le menu demandé lors de la première phase
 		/***** 
 		**  SOLUTION POTENTIELLE
 		******/
@@ -136,19 +140,19 @@ public class Menu {
 	*	Nom : menuAutomatique
 	*	@param String fichier
 	*	@return NONE
-	*	Description : Permet de creer un debat e partir d'un fichier
+	*	Description : Permet de cr�er un d�bat � partir d'un fichier
 	**/
-	public void menuAutoFichier(String fichier, Debat debat) throws IOException
+	public void menuAutoFichier(String fichier, DebatManuelle debat) throws IOException
 	{
 		 
 		String ligne;                               // Va stocker chaque ligne du fichier
-		int nb = 0;                                 // Variable entiere e incrementer e chaque nouvelle ligne pour indiquer quel ligne est responsable d'une exception
-		String argument1, argument2;                // Pour stocker les arguments donne par le fichier
+		int nb = 0;                                 // Variable enti�re � incr�menter � chaque nouvelle ligne pour indiquer quel ligne est responsable d'une exception
+		String argument1, argument2;                // Pour stocker les arguments donn� par le fichier
 		
 			FileReader fReader = new FileReader(fichier);            // Ouverture du fichier avec FileReader
 			BufferedReader bReader = new BufferedReader(fReader);{   // Ouverture du fichier avec BufferedReader pour mieux le manipuler
 			
-			ArrayList<String> tabArg = new ArrayList<String>();       // Pour stocker les noms des arguments et verifier si 2 arguments ont deja ete ajoute au debat avant une contradiction
+			ArrayList<String> tabArg = new ArrayList<String>();       // Pour stocker les noms des arguments et v�rifier si 2 arguments ont d�ja �t� ajout� au d�bat avant une contradiction
 			
 			while((ligne = bReader.readLine()) != null) {             // Tant que le fichier contient des lignes
 				
@@ -165,25 +169,25 @@ public class Menu {
 					if (t1.length != 2 || t2.length != 2 || t3.length != 1) {
 						throw new IOException("Ligne "+nb+", le nom de l'argument ne doit pas contenir \",\" ni \"(\" ni \")\"");
 					}
-					//] On verifie que l'argument ne contient pas de "(", de ")", ou de ","
+					//] On v�rifie que l'argument ne contient pas de "(", de ")", ou de ","
 					
 					//[
 					StringTokenizer st = new StringTokenizer(ligne,"()");
 					st.nextToken();
 					argument1 = st.nextToken().toString();
-					//] On selectionne le nom de l'argument
+					//] On s�lectionne le nom de l'argument
 					
-					argument1 = argument1.trim();                                             // supprime les espaces entre les parentheses et le nom de l'argument
+					argument1 = argument1.trim();                                             // supprime les espaces entre les parenth�ses et le nom de l'argument
 					
-					if (argument1.equals("argument") || argument1.equals("contradiction")) {  // Le nom de l'argument ne doit pas etre ni "argument" ni "contradiction"
-						throw new IOException("Ligne "+nb+", le nom de l'argument ne doit pas etre egale e \"argument\" ou \"contradiction\"");
+					if (argument1.equals("argument") || argument1.equals("contradiction")) {  // Le nom de l'argument ne doit pas �tre ni "argument" ni "contradiction"
+						throw new IOException("Ligne "+nb+", le nom de l'argument ne doit pas �tre �gale � \"argument\" ou \"contradiction\"");
 					}
 					
-					debat.ajoutArgumentsString(argument1);                                    // On ajoute l'argument au debut
+					debat.ajoutArgumentsString(argument1);                                    // On ajoute l'argument au d�but
 					
 					tabArg.add(argument1);
 					
-					//Debat.afficheDebat();                                                         // (e utiliser pour tester le programme) affiche les etapes de creation du debat creer e partir du fichier
+					//Debat.afficheDebat();                                                         // (� utiliser pour tester le programme) affiche les �tapes de cr�ation du d�bat cr�er � partir du fichier
 					
 				}else if( ligne.startsWith("contradiction(") && ligne.endsWith(").") && ligne.contains(",") ) {      // SI C'EST POUR AJOUTER UNE CONTRADICTION
 					
@@ -197,7 +201,7 @@ public class Menu {
 						throw new IOException("Ligne "+nb+", le nom des arguments dans la contracdiction ne doivent pas contenir de \",\" ni de \"(\" ni de \")\"");
 					}
 					
-					//] On verifie qu'aucun argument de la contradiction ne contient  de "(",et de ")". Et on verifie qu'il y a bien une virgule
+					//] On v�rifie qu'aucun argument de la contradiction ne contient  de "(",et de ")". Et on v�rifie qu'il y a bien une virgule
 					
 					//[
 					StringTokenizer st1 = new StringTokenizer(ligne,"()");
@@ -209,33 +213,33 @@ public class Menu {
 					if (t1.length==0 || t1[0].length() == 0 || t1.length==1) {
 						throw new IOException("Ligne "+nb+", il manque un ou plusieurs arguments dans la contradiction");
 					}
-					//] On verifie si une contradiction contient 2 noms
+					//] On v�rifie si une contradiction contient 2 noms
 					
 					//[
 					StringTokenizer st2 = new StringTokenizer(ligne,"(,)");
 					st2.nextToken();
 					argument1 = st2.nextToken().toString();
 					argument2 = st2.nextToken().toString();
-					//] On selectionne le nom des 2 arguments
+					//] On s�lectionne le nom des 2 arguments
 					
-					argument1.trim();                          // supprime les espaces entre les parentheses et le nom de l'argument                                              
+					argument1.trim();                          // supprime les espaces entre les parenth�ses et le nom de l'argument                                              
 					argument2.trim();
 					
-					if (argument1.equals("argument") || argument1.equals("contradiction")) {   // Le nom de l'argument ne doit pas etre ni "argument" ni "contradiction"
-						throw new IOException("Ligne "+nb+", le nom de l'argument ne doit pas etre egale e \"argument\" ou \"contradiction\"");
+					if (argument1.equals("argument") || argument1.equals("contradiction")) {   // Le nom de l'argument ne doit pas �tre ni "argument" ni "contradiction"
+						throw new IOException("Ligne "+nb+", le nom de l'argument ne doit pas �tre �gale � \"argument\" ou \"contradiction\"");
 					}else if (argument2.equals("argument") || argument2.equals("contradiction")) {
-						throw new IOException("Ligne "+nb+", le nom de l'argument ne doit pas etre egale e \"argument\" ou \"contradiction\"");
+						throw new IOException("Ligne "+nb+", le nom de l'argument ne doit pas �tre �gale � \"argument\" ou \"contradiction\"");
 					}	
 					
-					if (!tabArg.contains(argument1)) {                                         // Verifie si si un argument neest pas defini, ou est defini apres avoir ete utilise dans une contradiction
-						throw new IOException("Ligne "+nb+", l'argument "+argument1+" n'a pas encore ete ajoute au debat");         
+					if (!tabArg.contains(argument1)) {                                         // V�rifie si si un argument n�est pas d�fini, ou est d�fini apr�s avoir �t� utilis� dans une contradiction
+						throw new IOException("Ligne "+nb+", l'argument "+argument1+" n'a pas encore �t� ajout� au d�bat");         
 					}else if (!tabArg.contains(argument2)) {
-						throw new IOException("Ligne "+nb+", l'argument "+argument2+" n'a pas encore ete ajoute au debat");         
+						throw new IOException("Ligne "+nb+", l'argument "+argument2+" n'a pas encore �t� ajout� au d�bat");         
 					}
 					debat.ajoutContradictions(argument1, argument2);
 					
 				}else {
-					throw new IOException("Ligne "+nb+", probleme de mise en forme");         // LE FICHIER N'EST PAS DE LA BONNE FORME
+					throw new IOException("Ligne "+nb+", probl�me de mise en forme");         // LE FICHIER N'EST PAS DE LA BONNE FORME
 				}
 			}
 			bReader.close();
@@ -243,20 +247,19 @@ public class Menu {
 	}
 	/**
 	 * Nom : menuAutoSol
-	 * @param Debat debat
+	 * @param DebatManuelle debat
 	 * @return NONE
-	 * Description : Menu qui propose les 4 options demandees
+	 * Description : Menu qui propose les 4 options demandées
 	 */
 	
-	public void menuAutoSolu(Debat debat) {
+	public void menuAutoSolu(DebatManuelle debat) {
 
 		EnsembleSolution ensSol=new EnsembleSolution(debat);
 		List<List<List<String>>> ensSolPos=ensSol.getEnsSolPos();
 		List<List<String>> ensSolAdm =ensSol.getEnsSolAdm(ensSolPos);
 		List<List<String>> ensSolPref=ensSol.getensSolPref(ensSolAdm);
 		List<String> derniereSol = null;
-		int rep = 0; // pour savoir quel est la derniere sol
-		int res;//resultat de la saisie
+		int res;//résultat de la saisie
 		int nombreAppelFonctionAdm = 0; //compteur du nombre de fois où l'on appel la fonction getUneSolution
 		int nombreAppelFonctionPref = 0;
 		do
@@ -276,7 +279,6 @@ public class Menu {
 					else
 					{
 						derniereSol = getUneSolution(ensSolAdm,nombreAppelFonctionAdm);
-						rep = 1;
 						for(int i = 0;i< derniereSol.size();i++)
 						{
 							if(i == derniereSol.size()-1)
@@ -302,11 +304,6 @@ public class Menu {
 					else
 					{
 						derniereSol = getUneSolution(ensSolPref,nombreAppelFonctionPref);
-						if(nombreAppelFonctionPref >= ensSolPref.size())
-						{
-							nombreAppelFonctionPref= -1;
-						}
-						rep = 2;
 						for(int i = 0;i< derniereSol.size();i++)
 						{
 							if(i == derniereSol.size()-1)
@@ -327,15 +324,17 @@ public class Menu {
 				case 3 :
 					System.out.println("On sauvegardera la derniere solution montree");
 					String nomFichier = "SauvegardeSolu.txt"; //on suppose qu'on sauvegarde tout dans un seul et même fichier en ne gardant que la derniere solution
-					if(rep == 2 && existSoluPref(ensSolPref) == true) // verif qu'il y a bien une solution pref (sinon sauvegarder quand meme mais fichier vide)
+					if(derniereSol == null &&(existSoluPref(ensSolPref)==true || existSoluAdm(ensSolAdm)==true))//implique qu'il n'a pas encore choisi les options 1 ou 2 car il existes des solutions adm ou pref
 					{
-						
-						sauvegarderSolu(nomFichier,derniereSol);
+						System.out.println("Avant de sauvegarder une solution, vous devez avoir opté pour les options 1 ou 2");
 					}
-					else if(rep == 1 && existSoluAdm(ensSolAdm)==true) // rep == 1 implique que la derniere sol montree etait une sol adm
+					else if(derniereSol == null)//cette fois-ci il n'y a pas de solution adm ou pref
 					{
-						
-						sauvegarderSolu(nomFichier,derniereSol);
+						System.out.println("Il n'y a pas de solution à sauvegarder");
+					}
+					else
+					{
+						sauvegarderSolu(nomFichier,derniereSol);//peut sauvegarder simplement l'ensemble vide
 					}
 					break;
 				case 4 : 
@@ -352,7 +351,7 @@ public class Menu {
 	 * Nom : existSoluAdm
 	 * @param List<List<String>>
 	 * @return boolean
-	 * Description : Verifie s'il existe une solution admissible
+	 * Description : Vérifie s'il existe une solution admissible
 	 */
 	private boolean existSoluAdm(List<List<String>> sol)
 	{
@@ -369,7 +368,7 @@ public class Menu {
 	 * Nom : existSoluPref
 	 * @param List<List<String>>
 	 * @return boolean
-	 * Description : Verifie s'il existe une solution preferee
+	 * Description : Vérifie s'il existe une solution préférée
 	 */
 	private boolean existSoluPref(List<List<String>> sol)
 	{
@@ -390,6 +389,7 @@ public class Menu {
 	 */
 	private List<String> getUneSolution(List<List<String>> sol,int indice)
 	{
+		//dans le switch case, l'indice est fait de sorte à ce qu'il ne dépasse pas la taille de la liste
 		return sol.get(indice);
 	}
 	
@@ -406,12 +406,12 @@ public class Menu {
 		{
 			File f = new File(nomFichier);
 			f.createNewFile();
-			if(f.exists()) // verif que le fichier a bien ete cree
+			if(f.exists()) // vérif que le fichier a bien été crée
 			{
 				FileWriter fw = new FileWriter(f);
 				for(int i = 0;i<sol.size();i++)
 				{
-					if(i == sol.size()-1)//afin de supprime la virgule lorsque c'est le dernier argument de l'ensemble
+					if(i == sol.size()-1)//afin de supprimé la virgule lorsque c'est le dernier argument de l'ensemble
 					{
 						fw.write(sol.get(i));
 					}
@@ -438,9 +438,10 @@ public class Menu {
 	}
 	
 	/**
-	 * Methode qui permet une saisie et qui gere les erreurs de types
-	 * @param String s
+	 * Nom : saisi
+	 * @param String
 	 * @return int
+	 * Description : Methode qui permet une saisie et qui gère les erreurs de types
 	 */
 	public int saisi(String s) // s correspond aux phrases conçu pour l'utilisateur
 	{
@@ -448,7 +449,7 @@ public class Menu {
 		int valeur = 0;
 		do
 		{
-			clavier = new Scanner(System.in); //redeclare car sinon boucle infini
+			clavier = new Scanner(System.in); //redéclare car sinon boucle infini
 			try
 			{
 				erreur = false;
