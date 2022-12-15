@@ -1,8 +1,7 @@
-package programmeManuelle;
+package Main;
 
 import interfaceUtilisateur.Menu;
-
-
+import programmeManuelle.Debat;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,13 +9,13 @@ import java.io.IOException;
 import java.util.Scanner;
 
 
-public class TestDebatManuelle 
+public class Main 
 {
 	
 	public static void main(String[] args) 
 	{
-		Menu m = new Menu();                        // Classe pour afficher les diff�rentes parties du menu
-		DebatManuelle debat =new DebatManuelle();  // Pour cr�er le d�bat � partir du fichier donn� en param�tre de menuAutoFichier
+		Menu m = new Menu();                        // Classe pour afficher les differentes parties du menu
+		Debat debat =new Debat();  // Pour creer le debat a partir du fichier donne en parametre de menuAutoFichier
 		Scanner scan = new Scanner(System.in);
 		int res;
 		res = m.saisi("1) remplir le graphe manuellement 2) automatiquement ? :");
@@ -34,11 +33,11 @@ public class TestDebatManuelle
 			try
 			{
 				String nomFichier = new String();
-				System.out.println("Entrez le chemin où se trouve votre fichier ou le nom du fichier (avec l'extension .txt) : ");
+				System.out.println("Entrez le chemin ou se trouve votre fichier ou le nom du fichier (avec l'extension .txt) : ");
 				nomFichier = scan.next();
 				m.menuAutoFichier(nomFichier, debat);
 				File f = new File(nomFichier);
-				if(f.exists()) //vérifier que le fichier existe avant d'exécuter le menu
+				if(f.exists()) //verifier que le fichier existe avant d'executer le menu
 					m.menuAutoSolu(debat);
 			}
 			catch (FileNotFoundException fnfe) 

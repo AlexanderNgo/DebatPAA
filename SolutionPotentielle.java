@@ -13,7 +13,7 @@ public class SolutionPotentielle {
 	 * Nom : setArguments
 	 * @param List<String> arg
 	 * @return NONE
-	 * Description : Methode qui remplace l'attribut arguments par un autre donn� 
+	 * Description : Methode qui remplace l'attribut arguments par un autre donne 
 	 */
 	public void setArguments(List<String> arg) {
 		this.arguments=arg;
@@ -26,7 +26,7 @@ public class SolutionPotentielle {
 	**/
 	public void add(String arg){
 		if (arguments.contains(arg)) {
-			System.out.println("L'argument "+arg+" est d�ja dans E");
+			System.out.println("L'argument "+arg+" est deja dans E");
 		}else {
 			arguments.add(arg);
 		}
@@ -36,7 +36,7 @@ public class SolutionPotentielle {
 	*	Nom : remove
 	*	@param String arg
 	*	@return NONE
-	*	Description : Enl�ve un argument de la solution potentielle E
+	*	Description : Enleve un argument de la solution potentielle E
 	**/
 	public void remove(String arg) {
 		if (!arguments.contains(arg)) {
@@ -47,47 +47,44 @@ public class SolutionPotentielle {
 	}
 	
 	/**
-	*	Nom : contradictionVerif
+	*	Methode place dans la methode principale de verif, qui va tester si l'ensemble E se contredit ou pas.
 	*	@param DebatManuelle debat
 	*	@return boolean
-	*	Description : M�thode plac� dans la m�thode principale de verif, qui va tester si l'ensemble E se contredit ou pas.
 	**/
-	private boolean contradictionVerif(DebatManuelle debat) {
+	private boolean contradictionVerif(Debat debat) {
 		for(String arg:arguments) {
 			List<String> contres=debat.getGraph().get(arg);
 			for (String contre :contres) {
 				if (arguments.contains(contre)) {
 					System.out.println(contre+" contredit "+arg);
-					return false;//pr�sense de contradiction
+					return false;//presense de contradiction
 				}
 			}
 		}
 		return true;
 	}
 	/**
-	 * Nom : contradictionVerifnoPrint
+	 * Meme methode que contradictionVerif() mais sans rien afficher dans la console
 	 * @param debat
 	 * @return boolean
-	 * Description : Meme methode que contradictionVerif() mais sans rien afficher dans la console
 	 */
-	private boolean contradictionVerifnoPrint(DebatManuelle debat) {
+	private boolean contradictionVerifnoPrint(Debat debat) {
 		for(String arg:arguments) {
 			List<String> contres=debat.getGraph().get(arg);
 			for (String contre :contres) {
 				if (arguments.contains(contre)) {
-					return false;//pr�sense de contradiction
+					return false;//presense de contradiction
 				}
 			}
 		}
 		return true;
 	}
 	/**
-	*	Nom : verif
+	*	Methode qui verifie si la solution potentielle E est admissible ou pas
 	*	@param DebatManuelle debat
 	*	@return boolean
-	*	Description : V�rifie si la solution potentielle E est admissible ou pas
 	**/
-	public boolean verif(DebatManuelle debat) {
+	public boolean verif(Debat debat) {
 		if (arguments.size() == 0) {                 // SI ENSEMBLE VIDE ALORS SOLU ADMI
 			return true;
 		}
@@ -129,12 +126,11 @@ public class SolutionPotentielle {
 	}
 	
 	/**
-	*	Nom : verifnoPrint
+	 * 	Meme chose que verif() mais sans rien afficher dans la console
 	*	@param DebatManuelle debat
 	*	@return boolean
-	*	Description : Meme chose que verif() mais sans rien afficher dans la console
 	**/
-	public boolean verifnoPrint(DebatManuelle debat) {
+	public boolean verifnoPrint(Debat debat) {
 		if (arguments.size() == 0) {         
 			return true;
 		}
@@ -170,10 +166,9 @@ public class SolutionPotentielle {
 	}
 	
 	/**
-	*	Nom : toString
+	*	Retourne la solution potentielle E
 	*	@param NONE
 	*	@return String
-	*	Description : Retourne la solution potentielle E
 	**/
 	public String toString() {
 		StringBuffer sb=new StringBuffer("L'ensemble E { ");

@@ -5,15 +5,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import programmeManuelle.DebatManuelle;
+import programmeManuelle.Debat;
 import programmeManuelle.SolutionPotentielle;
 
 public class EnsembleSolution {
 	
-	private DebatManuelle debat;
+	private Debat debat;
 	private List<String> ensArg;
 	
-	public EnsembleSolution(DebatManuelle debat) {
+	public EnsembleSolution(Debat debat) {
 		this.debat=debat;
 		this.ensArg = debat.getArguments();
 	}
